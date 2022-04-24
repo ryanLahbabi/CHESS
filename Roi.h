@@ -20,6 +20,8 @@ public:
          }
 
      }
+
+     ~Roi();
      virtual void mouvementLegal(Echequier& echiquier );
      virtual void deplacement(Echequier& echiquier );
      bool miseEnEchec(Echequier& echiquier);
@@ -29,6 +31,7 @@ public:
      bool echec = false;
 
 private:
+     shared_ptr<Roi> roiPtr = nullptr; // nullptr == ptr.count() = 0;
     static int count_;
     const int MAXMOUVEMENTX_ = 1;
     const int MAXMOUVEMENTY_ = 1;
