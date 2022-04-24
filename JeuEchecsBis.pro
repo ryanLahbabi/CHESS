@@ -20,7 +20,6 @@ SOURCES += \
 HEADERS += \
     Fou.h \
     Piece.h \
-    Raii.h \
     Regle.h \
     Roi.h \
     Tour.h \

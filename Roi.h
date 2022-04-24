@@ -5,7 +5,7 @@
 namespace modele
 {
 
-class Roi: public Piece
+class Roi: virtual public Piece
 {
 public:
 
@@ -21,17 +21,22 @@ public:
 
      }
 
-     ~Roi();
+
      virtual void mouvementLegal(Echequier& echiquier );
      virtual void deplacement(Echequier& echiquier );
      bool miseEnEchec(Echequier& echiquier);
      static int getCount();
 
+     shared_ptr<Roi>& getRoi() { return roiPtr_; }
+     void Raii(Roi& roi);
+
+
 
      bool echec = false;
 
+    ~Roi();
 private:
-     shared_ptr<Roi> roiPtr = nullptr; // nullptr == ptr.count() = 0;
+    shared_ptr<Roi> roiPtr_ = nullptr; // nullptr == ptr.count() = 0;
     static int count_;
     const int MAXMOUVEMENTX_ = 1;
     const int MAXMOUVEMENTY_ = 1;

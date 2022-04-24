@@ -38,3 +38,14 @@ using namespace std;
 
      }
  }
+
+ namespace modele
+ {
+ void Raii(Fou& fou)
+ {
+     if (fou.getFou().use_count() == 0)
+     {
+             fou.~Fou();
+     }
+ }
+ }

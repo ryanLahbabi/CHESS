@@ -1,6 +1,6 @@
-//#include "Tour.h"
+#include "Tour.h"
 
-//using namespace std;
+using namespace std;
 
 //void modele::Tour::mouvementLegal(Echequier& echiquier, int x, int y)
 //{
@@ -64,3 +64,14 @@
 //        }
 //    }
 //}
+
+namespace modele
+{
+void Raii(Tour& tour)
+{
+    if (tour.getTour().use_count() == 0)
+    {
+            tour.~Tour();
+    }
+}
+}

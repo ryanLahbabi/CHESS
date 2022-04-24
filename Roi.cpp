@@ -24,5 +24,17 @@ bool modele::Roi::miseEnEchec(Echequier& echiquier)
 
 }
 
+namespace modele
+{
+void Raii(Roi& roi)
+{
+    if (roi.getRoi().use_count() == 0)
+    {
+            roi.~Roi();
+    }
+}
+}
+
+
 //// Reste à implémenter mouvement légal.
 
