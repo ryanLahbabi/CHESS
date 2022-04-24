@@ -1,7 +1,7 @@
 #ifndef TOUR_H
 #define TOUR_H
 #endif // TOUR_H
-#include <PIECE.h>
+#include <echequier.h>
 
 namespace modele
 {
@@ -12,7 +12,7 @@ public:
     {
         couleur_ = couleur;
     }
-     void mouvementLegal(int x, int y) override;
+      void mouvementLegal(Echequier& echiquier, int x, int y) ;
 
 protected:
     const int MAXMOUVEMENTX = 7;

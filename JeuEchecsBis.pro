@@ -15,8 +15,7 @@ SOURCES += \
     Tour.cpp \
     cavalier.cpp \
     main.cpp \
-    mainwindow.cpp \
-    qt.cpp
+    mainwindow.cpp
 
 HEADERS += \
     Fou.h \
@@ -27,8 +26,7 @@ HEADERS += \
     cavalier.h \
     echequier.h \
     jeu.h \
-    mainwindow.h \
-    qt.h
+    mainwindow.h
 
 FORMS += \
     mainwindow.ui

@@ -5,20 +5,18 @@
 #include <QObject>
 #include <cmath>
 #include <iostream>
-#include <Regle.h>
+
 
 using namespace std;
 
 namespace modele{
 
-class Piece: public Regle
+class Piece
 {
 public:
     Piece() = default;
     Piece(int x, int y, bool couleur);//bool = true --> Blanc
     virtual ~Piece() = default;
-    virtual void deplacement(Echequier& echiquier);
-
 
     int& getx(){return x_;}
     int& gety(){return y_;}

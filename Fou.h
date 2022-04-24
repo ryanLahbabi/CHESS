@@ -1,6 +1,6 @@
 #ifndef FOU_H
 #define FOU_H
-#include <PIECE.h>
+#include <echequier.h>
 #endif // FOU_H
 
 
@@ -13,7 +13,7 @@ public:
     {
         couleur_ = couleur;
     }
-     void mouvementLegal(int x, int y ) override;
+     void mouvementLegal(Echequier& echiquier, int x, int y ) ;
      int deltaX;
      int deltay;
 protected:

@@ -5,7 +5,7 @@
 #include <QObject>
 #include <cmath>
 #include <iostream>
-#include <PIECE.h>
+#include <Piece.h>
 
 
 using namespace std;
@@ -25,6 +25,8 @@ public:
     bool& getechecMatBlanc(){return echecMatBlanc_; };
     bool& getechecMatNoir(){return echecMatNoir_; };
     unique_ptr<Piece>& getPieceAbstraite() { return pieceAbstraite_; }
+    virtual void deplacement(Echequier& echiquier);
+    virtual void mouvementLegal(Echequier& echiquier) = 0;
 
 
 private:

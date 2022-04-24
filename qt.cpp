@@ -1,5 +1,5 @@
 #include "qt.h"
-#include "ui_qt.h"
+//#include "ui_qt.h"
 #include <QPaintEvent>
 #include <QWidget>
 #include <QMainWindow>

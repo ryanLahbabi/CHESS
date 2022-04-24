@@ -11,7 +11,9 @@ using namespace std;
 
 namespace modele
 {
+
 class Echequier;
+
 class Regle
 {
 

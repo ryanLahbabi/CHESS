@@ -2,8 +2,7 @@
 #define JEU_H
 
 #endif // JEU_H
-#include <Echequier.h>
-#include <Slots.h>
+#include <echequier.h>
 #include <cmath>
 #include <iostream>
 
