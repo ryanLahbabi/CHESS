@@ -9,6 +9,9 @@ Partie 3: La classe d'implémentation du RAII est dans Piece.cpp, vous y trouver
 vérifier la mise en échec, enlever la piece à l'aide du shared_ptr qui détruira automatiquement la piece grâce aux pointeurs intelligents
  et enfin le retour du test mise en échec. Malheureusement, nous avons dû commenter nos deux fonction ajouter et enlever piece car ces deux
 fonctions proviennet de echequier.h et nous devons régler un problème de compilation à cause de l'inclusion de nos en-têtes
+
+Les avertissements de builds sont juste dû au fait que nous n'utilisons pas encore nos attributs x et y,
+nous les utiliserons par la suite que lorsque nous allons définir nos méthode pour chaucune des pièces de l'échiquier.
 */
 
 
