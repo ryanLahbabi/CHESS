@@ -5,41 +5,38 @@
 namespace modele
 {
 
-class Roi: virtual public Piece
+class Roi:  public Piece
 {
 public:
 
-     Roi(int x, int y, bool couleur )
+     Roi(int x, int y, bool couleur)
      {
          couleur_ = couleur;
          count_++;
 
          if (count_ >= 3)
          {
-             throw("Plus de deux Rois non permis!");
+             throw logic_error("Plus de deux Rois non permis!");
          }
 
      }
+     virtual ~Roi();
 
 
-     virtual void mouvementLegal(Echequier& echiquier );
-     virtual void deplacement(Echequier& echiquier );
+     void mouvementLegal(Echequier& echiquier );
+     void deplacement(Echequier& echiquier );
      bool miseEnEchec(Echequier& echiquier);
      static int getCount();
 
      shared_ptr<Roi>& getRoi() { return roiPtr_; }
-     void Raii(Roi& roi);
 
 
-
-     bool echec = false;
-
-    ~Roi();
 private:
     shared_ptr<Roi> roiPtr_ = nullptr; // nullptr == ptr.count() = 0;
-    static int count_;
+    int count_;
     const int MAXMOUVEMENTX_ = 1;
     const int MAXMOUVEMENTY_ = 1;
+    bool echec_ = false;
 
 };
 

@@ -25,9 +25,9 @@ public:
     bool& gagnant(){return gagnant_;};
     bool& coteReine(){return coteReine_;};
     bool& cliqueSurPiece(){return cliqueSurPiece_;};
-    int*   tableau[8][8];  // tableau de l'échiquier
 
 private:
+    int*   tableau_[8][8];  // tableau de l'échiquier
     Echequier echiquier_;
     bool debutPartie_ = false;
     bool miseEnEchec_ = false; // true

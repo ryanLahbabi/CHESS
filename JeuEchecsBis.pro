@@ -14,6 +14,7 @@ SOURCES += \
     Roi.cpp \
     Tour.cpp \
     cavalier.cpp \
+    echequier.cpp \
     main.cpp \
     mainwindow.cpp
 

@@ -17,21 +17,19 @@ class Echequier
 {
 public:
     Echequier();
-    void enleverPiece(int x, int y);
     void board();
-    unique_ptr<Piece>& getPiece(int x, int y) { return pieces_[x][y]; }
+    shared_ptr<Piece>& getPiece(int x, int y) { return pieces_[x][y]; }
     bool& getechecNoir(){return echecNoir_; };
     bool& getechecBlanc(){return echecBlanc_; };
     bool& getechecMatBlanc(){return echecMatBlanc_; };
     bool& getechecMatNoir(){return echecMatNoir_; };
-    unique_ptr<Piece>& getPieceAbstraite() { return pieceAbstraite_; }
-    virtual void deplacement(Echequier& echiquier);
-    virtual void mouvementLegal(Echequier& echiquier) = 0;
-
+    shared_ptr<Piece>& getPieceAbstraite() { return pieceAbstraite_; }
+    Echequier& enleverPiece(int x, int y);
+    Echequier& ajouterPieceTemp(int x, int y);
 
 private:
-    unique_ptr<Piece> pieces_[8][8];
-    unique_ptr<Piece> pieceAbstraite_; // piece que l'on peut pas supprimer lorsque le roi est en échec
+    shared_ptr<Piece> pieces_[8][8];
+    shared_ptr<Piece> pieceAbstraite_; // piece que l'on peut pas supprimer lorsque le roi est en échec
     pair <int, int> positionRoi_;
     int nbPieceDebut_ = 32;
     int nbPieceRestante_;

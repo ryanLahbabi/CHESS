@@ -18,7 +18,7 @@ class Regle
 {
 
  public:
-    virtual void mouvementLegal(Echequier& echiquier) = 0;
+    Regle() = default;
     virtual ~Regle() = default;
 };
 }

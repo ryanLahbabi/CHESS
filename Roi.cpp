@@ -2,6 +2,8 @@
 
 using namespace std;
 
+//modele::Roi::Roi(int x, int y, bool couleur)
+//Constructeur dans .h a cause des erreurs de compilation
 
 bool modele::Roi::miseEnEchec(Echequier& echiquier)
 {
@@ -9,7 +11,7 @@ bool modele::Roi::miseEnEchec(Echequier& echiquier)
         {
             for (int j = 0; j < 8; j++)
             {
-                if (echiquier.getPiece(i, j)->getcouleur() != couleur_ && echiquier.getPiece(i, j) != nullptr &&
+                if (echiquier.getPiece(i, j)->getCouleur() != couleur_ && echiquier.getPiece(i, j) != nullptr &&
                         echiquier.getPiece(i, j) != echiquier.getPiece(x_, y_))
                 {
                     if (dynamic_cast<Roi*>(echiquier.getPiece(i, j).get()))
@@ -22,17 +24,7 @@ bool modele::Roi::miseEnEchec(Echequier& echiquier)
                 }
             }
 
-}
 
-namespace modele
-{
-void Raii(Roi& roi)
-{
-    if (roi.getRoi().use_count() == 0)
-    {
-            roi.~Roi();
-    }
-}
 }
 
 
