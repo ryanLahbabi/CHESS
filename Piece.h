@@ -29,6 +29,17 @@ using namespace std;
 
 namespace modele{
 
+enum TypePiece
+{
+    ROI,
+    REINE,
+    CAVALIER,
+    FOU,
+    TOUR,
+    PION
+};
+
+
 class Piece
 {
 public:
@@ -41,10 +52,11 @@ public:
 
     //template <typename T>
     virtual bool Raii(shared_ptr<Piece> piecePtr);
-    bool& getCouleur() {return couleur_;}
+    bool getCouleur() {return couleur_;}
     void deplacement();
     bool mouvementLegalverification();
     bool miseEnEchec();
+    TypePiece getTypePiece();
 
 protected:
     shared_ptr<Piece> piecePtr_ = nullptr;

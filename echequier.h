@@ -36,7 +36,7 @@ class Echequier
 public:
     Echequier();
     void board();
-    shared_ptr<Piece>& getPiece(int x, int y) { return pieces_[x][y]; }
+    Piece* getPiece(const pair<int,int> &coordonee) const;
     bool& getechecNoir(){return echecNoir_; };
     bool& getechecBlanc(){return echecBlanc_; };
     bool& getechecMatBlanc(){return echecMatBlanc_; };
@@ -44,6 +44,13 @@ public:
     shared_ptr<Piece>& getPieceAbstraite() { return pieceAbstraite_; }
     Echequier& enleverPiece(int x, int y);
     Echequier& ajouterPieceTemp(int x, int y);
+    int distance(const pair<int,int> &coordoneeInit,const pair<int,int> &coordoneeFinale) const;
+    bool mouvementPiece(pair <int,int> coordoneeInit, pair<int,int> coordoneeFinale);
+    pair<int,int> getRoi(bool couleur) const;
+    vector<pair<int,int>> getCoordoneePiece(bool couleur) const;
+    bool mouvementValide(const pair<int,int> &coordonee,const pair<int,int> &coordoneeRoi) const;
+    vector<std::pair<int,int>> getCoordonee() const;
+    void afficher();
 
 private:
     shared_ptr<Piece> pieces_[8][8];
@@ -55,6 +62,7 @@ private:
     bool echecNoir_ = false;
     bool echecMatBlanc_ = false;
     bool echecMatNoir_ = false;
+
 };
 
 

@@ -13,8 +13,11 @@ SOURCES += \
     Piece.cpp \
     Roi.cpp \
     Tour.cpp \
+    affichage.cpp \
     cavalier.cpp \
     echequier.cpp \
+    interface.cpp \
+    jeu.cpp \
     main.cpp \
     mainwindow.cpp
 
@@ -24,8 +27,10 @@ HEADERS += \
     Regle.h \
     Roi.h \
     Tour.h \
+    affichage.h \
     cavalier.h \
     echequier.h \
+    interface.h \
     jeu.h \
     mainwindow.h
 
