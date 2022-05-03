@@ -36,3 +36,5 @@ bool modele::Piece::Raii(shared_ptr<modele::Piece> piecePtr)
 
     return modele::Piece::miseEnEchec();
 }
+
+

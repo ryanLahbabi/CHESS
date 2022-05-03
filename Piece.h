@@ -56,14 +56,14 @@ public:
     void deplacement();
     bool mouvementLegalverification();
     bool miseEnEchec();
-    TypePiece getTypePiece();
+    TypePiece getTypePiece() {return type_;}
 
 protected:
     shared_ptr<Piece> piecePtr_ = nullptr;
     int x_ = 0;
     int y_ = 0;
     bool couleur_ = true;// Si cest faux(0) la piece noir, si c'est true(1) la piece blanche
-
+    TypePiece type_;
 
 };
 }

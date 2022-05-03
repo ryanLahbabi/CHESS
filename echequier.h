@@ -23,7 +23,7 @@ nous les utiliserons par la suite que lorsque nous allons définir nos méthode 
 #include <QObject>
 #include <cmath>
 #include <iostream>
-#include <Piece.h>
+#include <case.h>
 
 
 using namespace std;
@@ -31,12 +31,14 @@ using namespace std;
 namespace modele //Ajout de namespace modele
 {
 
+class Piece;
+
 class Echequier
 {
 public:
     Echequier();
     void board();
-    Piece* getPiece(const pair<int,int> &coordonee) const;
+    Piece* getPiece(const pair<int,int> &coordonee) const {return cases_.find(coordonee)->second->getPieces();}
     bool& getechecNoir(){return echecNoir_; };
     bool& getechecBlanc(){return echecBlanc_; };
     bool& getechecMatBlanc(){return echecMatBlanc_; };
@@ -45,15 +47,15 @@ public:
     Echequier& enleverPiece(int x, int y);
     Echequier& ajouterPieceTemp(int x, int y);
     int distance(const pair<int,int> &coordoneeInit,const pair<int,int> &coordoneeFinale) const;
-    bool mouvementPiece(pair <int,int> coordoneeInit, pair<int,int> coordoneeFinale);
+    bool mouvementPiece(const pair <int,int> &coordoneeInit, const pair<int,int> &coordoneeFinale);
     pair<int,int> getRoi(bool couleur) const;
     vector<pair<int,int>> getCoordoneePiece(bool couleur) const;
     bool mouvementValide(const pair<int,int> &coordonee,const pair<int,int> &coordoneeRoi) const;
     vector<std::pair<int,int>> getCoordonee() const;
-    void afficher();
+    void afficher() const;
 
 private:
-    shared_ptr<Piece> pieces_[8][8];
+    map<std::pair<int, int>, std::unique_ptr<Case>> cases_;
     shared_ptr<Piece> pieceAbstraite_; // piece que l'on peut pas supprimer lorsque le roi est en échec
     pair <int, int> positionRoi_;
     int nbPieceDebut_ = 32;
