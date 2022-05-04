@@ -2,25 +2,39 @@
 #define REGLE_H
 
 #endif // REGLE_H
-#include <QObject>
-#include <cmath>
-#include <iostream>
-#include <utility>
 
-using namespace std;
+#include <string>
+#include <QDebug>
+#include <QObject>
+#include <QGraphicsSceneMouseEvent>
+#include <QImage>
+#include <QGraphicsRectItem>
+#include <QBrush>
 
 namespace modele
 {
-
-class Echequier;
-
-class Regle
+class Regle: public QObject, public QGraphicsRectItem
 {
+    Q_OBJECT
+public:
+    Regle(int x, int y);
+    void setNomPiece(QString );
+    void appuiBouton(QGraphicsSceneMouseEvent *e);
+    void clearPng();
+    QString getNomPiece();
+    QString getPng();
+    void setPng(QString adresse);
 
- public:
-    Regle() = default;
-    virtual ~Regle() = default;
+private:
+    QString nomPiece;
+    QGraphicsPixmapItem piece;
+    QString png;
+    int x_;
+    int y_;
+
+
+signals:
+    QString envoyerMessage(QString nomPiece);
 };
 }
-
 

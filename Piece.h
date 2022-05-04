@@ -19,15 +19,14 @@ nous les utiliserons par la suite que lorsque nous allons définir nos méthode 
 #ifndef PIECE_H
 #define PIECE_H
 
-#endif // PIECE_H
-#include <QObject>
-#include <cmath>
 #include <iostream>
-
 
 using namespace std;
 
+
+class Echequier;
 namespace modele{
+
 
 enum TypePiece
 {
@@ -39,31 +38,32 @@ enum TypePiece
     PION
 };
 
-
 class Piece
 {
 public:
-    Piece() = default;
-    Piece(int x, int y, bool couleur);//bool = true --> Blanc
+    Piece(TypePiece, bool couleur);
+
     virtual ~Piece() = default;
 
-    int& getX(){return x_;}
-    int& getY(){return y_;}
+    void setCouleur(bool couleur);
+    void setType(TypePiece type);
+    void incrementer();
+    void decrementer();
+    bool getCouleur() const;
+    bool deplacement() const;
+    TypePiece getTypePiece() const;
 
-    //template <typename T>
     virtual bool Raii(shared_ptr<Piece> piecePtr);
-    bool getCouleur() {return couleur_;}
-    void deplacement();
-    bool mouvementLegalverification();
-    bool miseEnEchec();
-    TypePiece getTypePiece() {return type_;}
+
+
+    virtual bool mouvementLegal(const Echequier* echequier, const pair<int,int> &coordoneeInit, const pair<int,int> &coordoneeFinale) const = 0;
 
 protected:
-    shared_ptr<Piece> piecePtr_ = nullptr;
-    int x_ = 0;
-    int y_ = 0;
     bool couleur_ = true;// Si cest faux(0) la piece noir, si c'est true(1) la piece blanche
     TypePiece type_;
+    int mouvement_;
 
 };
 }
+
+#endif // PIECE_H

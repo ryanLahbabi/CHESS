@@ -1,17 +1,16 @@
-#ifndef TOUR_H
-#define TOUR_H
-#endif // TOUR_H
-#include <echequier.h>
+#ifndef REINE_H
+#define REINE_H
+
+#endif // REINE_H
+#include "echequier.h"
 #include "Piece.h"
 using namespace std;
 
-
-class Tour:  public modele::Piece
+class Reine:  public modele::Piece
 {
 public:
-    Tour(bool couleur);
+    Reine(bool couleur );
+    ~Reine() override = default;
     bool mouvementLegal(const Echequier* echequier, const pair<int,int> &coordoneeInit, const pair<int,int> &coordoneeFinale) const override;
-    ~Tour() override = default;
 
 };
-

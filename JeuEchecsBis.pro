@@ -11,6 +11,7 @@ CONFIG += c++11
 SOURCES += \
     Fou.cpp \
     Piece.cpp \
+    Regle.cpp \
     Roi.cpp \
     Tour.cpp \
     affichage.cpp \
@@ -19,7 +20,8 @@ SOURCES += \
     echequier.cpp \
     jeu.cpp \
     main.cpp \
-    mainwindow.cpp
+    pion.cpp \
+    reine.cpp
 
 HEADERS += \
     Fou.h \
@@ -32,12 +34,20 @@ HEADERS += \
     cavalier.h \
     echequier.h \
     jeu.h \
-    mainwindow.h
+    pion.h \
+    reine.h
 
-FORMS += \
-    mainwindow.ui
+FORMS +=
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    Resource.qrc
+
+DISTFILES += \
+    ../../../Desktop/Capture_decran_2022-05-02_154012.png \
+    ../../../Pictures/Capture.PNG \
+    ../../../Pictures/Saved pictures/FB_20150611_15_58_09_Saved_Picture.jpg

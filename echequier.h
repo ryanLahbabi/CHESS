@@ -23,8 +23,10 @@ nous les utiliserons par la suite que lorsque nous allons définir nos méthode 
 #include <QObject>
 #include <cmath>
 #include <iostream>
-#include <case.h>
+#include <map>
+#include <memory>
 
+#include "case.h"
 
 using namespace std;
 
@@ -37,33 +39,44 @@ class Echequier
 {
 public:
     Echequier();
+    ~Echequier();
+
     void board();
-    Piece* getPiece(const pair<int,int> &coordonee) const {return cases_.find(coordonee)->second->getPieces();}
-    bool& getechecNoir(){return echecNoir_; };
-    bool& getechecBlanc(){return echecBlanc_; };
-    bool& getechecMatBlanc(){return echecMatBlanc_; };
-    bool& getechecMatNoir(){return echecMatNoir_; };
-    shared_ptr<Piece>& getPieceAbstraite() { return pieceAbstraite_; }
-    Echequier& enleverPiece(int x, int y);
-    Echequier& ajouterPieceTemp(int x, int y);
+    void afficher() const;
+    void bougerPiece(const pair<int, int> &coordoneeInit, const pair<int, int> &coordoneeFinale);
+
+
+    Piece* getPiece(const pair<int,int> &coordonee) const;
+
     int distance(const pair<int,int> &coordoneeInit,const pair<int,int> &coordoneeFinale) const;
+
+
+    bool mouvementValide(const pair<int,int> &coordonee,const pair<int,int> &coordoneeRoi) const;
+    bool positionNonValide(const pair<int,int> &coordonee) const;
+    bool dansJeu(const pair<int,int> &coordonee) const;
+    bool couleurNonValide(const pair<int,int> &coordoneeInit, const pair<int,int> &coordoneeFinale) const;
+    bool couleurDiffNonValide(const pair<int,int> &coordoneeInit, const pair<int,int> &coordoneeFinale) const;
+    bool mouvementVerticale(const pair<int,int> &coordoneeInit, const pair<int,int> &coordoneeFinale) const;
+    bool mouvementHorizontale(const pair<int,int> &coordoneeInit, const pair<int,int> &coordoneeFinale) const;
+    bool mouvementDiagonale(const pair<int,int> &coordoneeInit, const pair<int,int> &coordoneeFinale) const;
+    bool avancer(const pair<int, int> &coordoneeInit, const pair<int, int> &coordoneeFinale, const Piece* piece) const;
+    bool cavalierBouger(const pair<int, int> &coordoneeInit, const pair<int, int> &coordoneeFinale) const;
+    bool caseLibre(const pair<int, int> &coordoneeInit, const pair<int, int> &coordoneeFinale) const;
     bool mouvementPiece(const pair <int,int> &coordoneeInit, const pair<int,int> &coordoneeFinale);
     pair<int,int> getRoi(bool couleur) const;
+    pair<int,int> getCoordoneeRoi(bool couleur) const;
+
     vector<pair<int,int>> getCoordoneePiece(bool couleur) const;
-    bool mouvementValide(const pair<int,int> &coordonee,const pair<int,int> &coordoneeRoi) const;
-    vector<std::pair<int,int>> getCoordonee() const;
-    void afficher() const;
+    vector<pair<int,int>> getCoordonee() const;
+    vector<Piece*> getPieces(bool couleur) const;
+
+    unique_ptr<Piece> setPiece(const pair<int,int> &coordonee, unique_ptr<Piece> p);
+
 
 private:
+    map<size_t, unique_ptr<Piece>> pieceCapturer_;
     map<std::pair<int, int>, std::unique_ptr<Case>> cases_;
-    shared_ptr<Piece> pieceAbstraite_; // piece que l'on peut pas supprimer lorsque le roi est en échec
-    pair <int, int> positionRoi_;
-    int nbPieceDebut_ = 32;
-    int nbPieceRestante_;
-    bool echecBlanc_ = false;
-    bool echecNoir_ = false;
-    bool echecMatBlanc_ = false;
-    bool echecMatNoir_ = false;
+    vector<pair<pair<int,int>, pair<int,int>>> mouvement_;
 
 };
 

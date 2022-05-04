@@ -1,40 +1,38 @@
+#include <iostream>
 #include "Piece.h"
+#include "echequier.h"
 
-bool modele::Piece::miseEnEchec()
+bool modele::Piece::getCouleur() const
 {
-    return true; //par defaut
+    return couleur_;
 }
 
-bool modele::Piece::mouvementLegalverification()
+void modele::Piece::setCouleur(bool couleur)
 {
-    return false;
+    couleur_ = couleur;
 }
 
-void modele::Piece::deplacement()
+modele::TypePiece modele::Piece::getTypePiece() const
 {
-    //** code here **//
+    return type_;
 }
 
-bool modele::Piece::Raii(shared_ptr<modele::Piece> piecePtr)
+void modele::Piece::setType(modele::TypePiece type)
 {
-    if (modele::Piece::miseEnEchec())
-    {
-        //** limiter deplacement piece **//
-        deplacement();
-    }
-
-    if (modele::Piece::mouvementLegalverification())
-    {
-        //Echequier::enleverPiece(piecePtr->getX(), piecePtr->getY());
-        //Echequier::ajouterPieceTemp(piecePtr->getX(), piecePtr->getY());
-    }
-    else
-    {
-        throw("Vous risquez d'être mis en echec.");
-    }
-
-
-    return modele::Piece::miseEnEchec();
+    type_ = type;
 }
 
+bool modele::Piece::deplacement() const
+{
+    return mouvement_ > 0;
+}
 
+void modele::Piece::incrementer()
+{
+    ++mouvement_;
+}
+
+void modele::Piece::decrementer()
+{
+    --mouvement_;
+}

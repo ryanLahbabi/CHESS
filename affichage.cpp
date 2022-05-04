@@ -1,120 +1,118 @@
-//#include "affichage.h"
+#include "affichage.h"
 
 
-//modele::Display::Display()
+modele::Affichage::Affichage()
+{
+    QObject::connect(&jeu, SIGNAL(envoyerMessage(QString)), this, SLOT(getSignal(QString)));
+    afficherJeu = new QGraphicsScene();
+    debut();
+    piecesPlacer();
+    couleur = true;
+}
+
+void modele::Affichage::debut()
+{
+    int j = 0;
+    int k = 0;
+    bool couleur = false; // a revoir
+    for(int i=0; i<64; i++)
+    {
+        QString nomCase = numeroCase[i];
+        Regle* r = new Regle(j,k);
+        r->setRect(j,k,50,50); //x loc, y loc, width, height
+
+
+        if (i % 8 == 0)
+        {
+            couleur = !couleur;  // a revoir
+        }
+
+         if (couleur)
+        {
+            r->setBrush(Qt::lightGray);
+        }
+        couleur = !couleur;
+
+         r->setNomPiece(nomCase);
+         ListeDePiece.append(r);
+         afficherJeu->addItem(r);
+        // Connect Space signal with Game slot
+        QObject::connect(r, SIGNAL(sendSignal(QString)), &jeu, SLOT(getInput(QString)));
+
+        j += 50;
+        if (j == 400)
+        {
+            j = 0;
+            k += 50;
+        }
+    }
+
+    QGraphicsTextItem * partie = new QGraphicsTextItem();
+    partie->setPos(425, 0);
+    afficherJeu->addItem(partie);
+
+//    tour des blanc
+      tourJoueur = new QGraphicsTextItem();
+      tourJoueur->setPos(425, 100);
+      afficherJeu->addItem(tourJoueur);
+
+
+      verification = new QGraphicsTextItem();
+      verification->setPos(425, 200);
+      afficherJeu->addItem(verification);
+}
+
+void modele::Affichage::piecesPlacer()
+{
+    ListeDePiece[0]->setPng(":/pieces/tourNoir.png");
+    ListeDePiece[1]->setPng(":/pieces/cavalierNoir.png");
+    ListeDePiece[2]->setPng(":/pieces/fouNoir.png");
+    ListeDePiece[3]->setPng(":/pieces/reineNoir.png");
+    ListeDePiece[4]->setPng(":/pieces/roiNoir.png");
+    ListeDePiece[5]->setPng(":/pieces/fouNoir.png");
+    ListeDePiece[6]->setPng(":/pieces/cavalierNoir.png");
+    ListeDePiece[7]->setPng(":/pieces/tourNoir.png");
+    ListeDePiece[8]->setPng(":/pieces/pionNoir.png");
+    ListeDePiece[9]->setPng(":/pieces/pionNoir.png");
+    ListeDePiece[10]->setPng(":/pieces/pionNoir.png");
+    ListeDePiece[11]->setPng(":/pieces/pionNoir.png");
+    ListeDePiece[12]->setPng(":/pieces/pionNoir.png");
+    ListeDePiece[13]->setPng(":/pieces/pionNoir.png");
+    ListeDePiece[14]->setPng(":/pieces/pionNoir.png");
+    ListeDePiece[15]->setPng(":/pieces/pionNoir.png");
+
+    ListeDePiece[48]->setPng(":/pieces/pionBlanc.png");
+    ListeDePiece[49]->setPng(":/pieces/pionBlanc.png");
+    ListeDePiece[50]->setPng(":/pieces/pionBlanc.png");
+    ListeDePiece[51]->setPng(":/pieces/pionBlanc.png");
+    ListeDePiece[52]->setPng(":/pieces/pionBlanc.png");
+    ListeDePiece[53]->setPng(":/pieces/pionBlanc.png");
+    ListeDePiece[54]->setPng(":/pieces/pionBlanc.png");
+    ListeDePiece[55]->setPng(":/pieces/pionBlanc.png");
+    ListeDePiece[56]->setPng(":/pieces/tourBlanche.png");
+    ListeDePiece[57]->setPng(":/pieces/cavalierBlanc.png");
+    ListeDePiece[58]->setPng(":/pieces/fouBlanc.png");
+    ListeDePiece[59]->setPng(":/pieces/reineBlanche.png");
+    ListeDePiece[60]->setPng(":/pieces/roiBlanc.png");
+    ListeDePiece[61]->setPng(":/pieces/fouBlanc.png");
+    ListeDePiece[62]->setPng(":/pieces/cavalierBlanc.png");
+    ListeDePiece[63]->setPng(":/pieces/tourBlanche.png");
+}
+
+
+QGraphicsScene* modele::Affichage::getGraphique()
+{
+     return afficherJeu;
+}
+
+
+//Avoir une reponse du jeu et changer l image de la piece sur
+//la case de l'Ã©chiquier
+
+
+//void modele::Affichage::getSignal(QString signal)
 //{
-//    // Connect Game signal with Display slot
-//    //QObject::connect(&jeu, SIGNAL(sendResponse(QString)), this, SLOT(getResponse(QString)));
-//    DisplayScene = new QGraphicsScene();
-//    setup();
-//    placePieces();
-//    //turnColor = WHITE;
-//}
-
-//void modele::Display::setup()
-//{
-//    int j = 0;
-//    int k = 0;
-//    bool black = true;
-//    for(int i=0; i<64; i++)
-//    {
-//        QString spacename = spaces[i];
-//        //Jeu * j = new Jeu(j,k);
-//        s->setRect(j,k,50,50); //x loc, y loc, width, height
-
-//        // Color squares
-//        if (i % 8 == 0)
-//        {
-//            black = !black;
-//        }
-
-//        if (black)
-//        {
-//            s->setBrush(Qt::lightGray);
-//        }
-//        black = !black;
-
-//        s->setName(spacename);
-//        spaceList.append(s);
-//        DisplayScene->addItem(s);
-//        // Connect Space signal with Game slot
-//        QObject::connect(s, SIGNAL(sendSignal(QString)), &game, SLOT(getInput(QString)));
-
-//        j += 50;
-//        if (j == 400)
-//        {
-//            j = 0;
-//            k += 50;
-//        }
-//    }
-
-//    QString matchText = "Player 1 vs Player 2";
-//    QGraphicsTextItem * match = new QGraphicsTextItem();
-//    match->setPlainText(matchText);
-//    match->setPos(425, 0);
-//    DisplayScene->addItem(match);
-
-//    QString toMove = "White's turn";
-//    turn = new QGraphicsTextItem();
-//    turn->setPlainText(toMove);
-//    turn->setPos(425, 100);
-//    DisplayScene->addItem(turn);
-
-//    QString state = "";
-//    check = new QGraphicsTextItem();
-//    check->setPlainText(state);
-//    check->setPos(425, 200);
-//    DisplayScene->addItem(check);
-//}
-
-//void modele::Display::placePieces()
-//{
-//    spaceList[0]->setImage(":/images/50px/BlackRook.png");
-//    spaceList[1]->setImage(":/images/50px/BlackKnight.png");
-//    spaceList[2]->setImage(":/images/50px/BlackBishop.png");
-//    spaceList[3]->setImage(":/images/50px/BlackQueen.png");
-//    spaceList[4]->setImage(":/images/50px/BlackKing.png");
-//    spaceList[5]->setImage(":/images/50px/BlackBishop.png");
-//    spaceList[6]->setImage(":/images/50px/BlackKnight.png");
-//    spaceList[7]->setImage(":/images/50px/BlackRook.png");
-//    spaceList[8]->setImage(":/images/50px/BlackPawn.png");
-//    spaceList[9]->setImage(":/images/50px/BlackPawn.png");
-//    spaceList[10]->setImage(":/images/50px/BlackPawn.png");
-//    spaceList[11]->setImage(":/images/50px/BlackPawn.png");
-//    spaceList[12]->setImage(":/images/50px/BlackPawn.png");
-//    spaceList[13]->setImage(":/images/50px/BlackPawn.png");
-//    spaceList[14]->setImage(":/images/50px/BlackPawn.png");
-//    spaceList[15]->setImage(":/images/50px/BlackPawn.png");
-
-//    spaceList[48]->setImage(":/images/50px/WhitePawn.png");
-//    spaceList[49]->setImage(":/images/50px/WhitePawn.png");
-//    spaceList[50]->setImage(":/images/50px/WhitePawn.png");
-//    spaceList[51]->setImage(":/images/50px/WhitePawn.png");
-//    spaceList[52]->setImage(":/images/50px/WhitePawn.png");
-//    spaceList[53]->setImage(":/images/50px/WhitePawn.png");
-//    spaceList[54]->setImage(":/images/50px/WhitePawn.png");
-//    spaceList[55]->setImage(":/images/50px/WhitePawn.png");
-//    spaceList[56]->setImage(":/images/50px/WhiteRook.png");
-//    spaceList[57]->setImage(":/images/50px/WhiteKnight.png");
-//    spaceList[58]->setImage(":/images/50px/WhiteBishop.png");
-//    spaceList[59]->setImage(":/images/50px/WhiteQueen.png");
-//    spaceList[60]->setImage(":/images/50px/WhiteKing.png");
-//    spaceList[61]->setImage(":/images/50px/WhiteBishop.png");
-//    spaceList[62]->setImage(":/images/50px/WhiteKnight.png");
-//    spaceList[63]->setImage(":/images/50px/WhiteRook.png");
-//}
-
-
-//QGraphicsScene* modele::Display::getScene()
-//{
-//    return DisplayScene;
-//}
-
-//// Get a response from the Game object and change the
-//// images of pieces on the board appropriately
-//void modele::Display::getResponse(QString response)
-//{
-//    std::string responseString = response.toStdString();
+//    string responseString = response.toStdString();
 
 //    if (responseString.compare("Check") == 0)
 //    {

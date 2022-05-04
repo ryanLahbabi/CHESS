@@ -1,0 +1,42 @@
+#include "Regle.h"
+
+modele::Regle::Regle(int x, int y)
+{
+    x_ = x;
+    y_ = y;
+
+    piece.setParentItem(this);
+}
+//A chaque clique, le nom de la regle est emmené au signal de l'interface
+void modele::Regle::appuiBouton(QGraphicsSceneMouseEvent *bouton){
+    if(bouton->buttons() == Qt::LeftButton){
+        qDebug() << "Bouton cliquer " << nomPiece;
+    }
+    emit envoyerMessage(nomPiece);
+}
+
+void modele::Regle::setNomPiece(QString n){
+    nomPiece = n;
+}
+
+QString modele::Regle::getNomPiece(){
+    return nomPiece;
+}
+
+void modele::Regle::setPng(QString adresse)
+{
+    png = adresse;
+    piece.setPixmap(adresse);
+    piece.setPos(x, y);
+    piece.show();
+}
+
+QString modele::Regle::getPng()
+{
+    return png;
+
+}
+void modele::Regle::clearPng()
+{
+    piece.hide();
+}
