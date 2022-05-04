@@ -14,17 +14,16 @@ Les avertissements de builds sont juste dû au fait que nous n'utilisons pas enc
 nous les utiliserons par la suite que lorsque nous allons définir nos méthode pour chaucune des pièces de l'échiquier.
 */
 
-
+#include <iostream>
 
 #ifndef PIECE_H
 #define PIECE_H
 
-#include <iostream>
+
 
 using namespace std;
 
 
-class Echequier;
 namespace modele{
 
 
@@ -38,6 +37,8 @@ enum TypePiece
     PION
 };
 
+
+class Echequier;
 class Piece
 {
 public:
@@ -56,12 +57,13 @@ public:
     virtual bool Raii(shared_ptr<Piece> piecePtr);
 
 
-    virtual bool mouvementLegal(const Echequier* echequier, const pair<int,int> &coordoneeInit, const pair<int,int> &coordoneeFinale) const = 0;
+    virtual bool mouvementLegal(const Echequier* echequier,const pair<int,int> &coordoneeInit, const pair<int,int> &coordoneeFinale) const = 0;
 
 protected:
     bool couleur_ = true;// Si cest faux(0) la piece noir, si c'est true(1) la piece blanche
     TypePiece type_;
     int mouvement_;
+
 
 };
 }

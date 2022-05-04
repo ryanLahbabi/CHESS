@@ -1,3 +1,4 @@
+#include "echequier.h"
 #include <cmath>
 #include <iostream>
 #include <memory>
@@ -10,7 +11,7 @@
 #include "Tour.h"
 #include "Fou.h"
 #include "cavalier.h"
-#include "echequier.h"
+
 
 using namespace std;
 

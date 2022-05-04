@@ -1,6 +1,5 @@
 #include <iostream>
 #include "Piece.h"
-#include "echequier.h"
 
 bool modele::Piece::getCouleur() const
 {

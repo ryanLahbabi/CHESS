@@ -3,23 +3,23 @@
 Pion::Pion(bool couleur) : Piece::Piece(modele::PION, couleur){}
 
 
- bool Pion::mouvementLegal(const Echequier *echequier, const pair<int,int> &coordoneeInit, const pair<int,int> &coordoneeFinale) const
+ bool Pion::mouvementLegal(const modele::Echequier *echequier, const pair<int,int> &coordoneeInit, const pair<int,int> &coordoneeFinale) const
  {
      int distance = echequier->distance(coordoneeInit, coordoneeFinale);
 
-     if (!echequier->isForwardMove(coordoneeInit, coordoneeFinale, this))
+     if (!echequier->avancer(coordoneeInit, coordoneeFinale, this))
      {
              return false;
      }
-     if (echequier->isHorizontalMove(coordoneeInit, coordoneeFinale))
+     if (echequier->mouvementHorizontale(coordoneeInit, coordoneeFinale))
      {
              return false;
      }
-     if (echequier->isDiagonalMove(coordoneeInit, coordoneeFinale))
+     if (echequier->mouvementDiagonale(coordoneeInit, coordoneeFinale))
      {
         if (distance == 1)
         {
-            if (echequier->isOccupiedDifferentColor(coordoneeInit, coordoneeFinale))
+            if (echequier->couleurDiffNonValide(coordoneeInit, coordoneeFinale))
             {
                  return true;
             }
@@ -33,15 +33,15 @@ Pion::Pion(bool couleur) : Piece::Piece(modele::PION, couleur){}
             return false;
          }
      }
-     if (echequier->isVerticalMove(coordoneeInit, coordoneeFinale))
+     if (echequier->mouvementVerticale(coordoneeInit, coordoneeFinale))
      {
-        if (echequier->isOccupied(coordoneeFinale))
+        if (echequier->positionNonValide(coordoneeFinale))
         {
             return false;
         }
         if (distance == 2)
         {
-            if (!getMoved() && echequier->isPathClear(coordoneeInit, coordoneeFinale))
+            if (!deplacement() && echequier->caseLibre(coordoneeInit, coordoneeFinale))
             {
                 return true;
             }

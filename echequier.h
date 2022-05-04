@@ -19,7 +19,6 @@ nous les utiliserons par la suite que lorsque nous allons définir nos méthode 
 #ifndef ECHEQUIER_H
 #define ECHEQUIER_H
 
-#endif // ECHEQUIER_H
 #include <QObject>
 #include <cmath>
 #include <iostream>
@@ -82,3 +81,6 @@ private:
 
 
 }
+
+
+#endif // ECHEQUIER_H

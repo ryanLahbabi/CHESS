@@ -4,18 +4,16 @@ using namespace std;
 Tour::Tour(bool couleur): Piece(modele::TOUR, couleur)
 {}
 
-bool Tour::mouvementLegal(const Echequier *echequier, const pair<int,int> &coordoneeInit, const pair<int,int> &coordoneeFinale) const
+bool Tour::mouvementLegal(const modele::Echequier *echequier, const pair<int,int> &coordoneeInit, const pair<int,int> &coordoneeFinale) const
 {
-    if(echequier->isVerticalMove(coordoneeInit, coordoneeFinale)
-      || echequier->isHorizontalMove(coordoneeInit, coordoneeFinale))
+    if(echequier->mouvementVerticale(coordoneeInit, coordoneeFinale)
+      || echequier->mouvementHorizontale(coordoneeInit, coordoneeFinale))
     {
-        if (echequier->isPathClear(coordoneeInit, coordoneeFinale))
+        if (echequier->caseLibre(coordoneeInit, coordoneeFinale))
         {
             return true;
         }
     }
-
-    // If we've gotten this far, not a valid move
     return false;
 
 }

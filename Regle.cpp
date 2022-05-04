@@ -27,7 +27,7 @@ void modele::Regle::setPng(QString adresse)
 {
     png = adresse;
     piece.setPixmap(adresse);
-    piece.setPos(x, y);
+    piece.setPos(x_, y_);
     piece.show();
 }
 

@@ -1,8 +1,6 @@
 #ifndef REGLE_H
 #define REGLE_H
 
-#endif // REGLE_H
-
 #include <string>
 #include <QDebug>
 #include <QObject>
@@ -37,4 +35,8 @@ signals:
     QString envoyerMessage(QString nomPiece);
 };
 }
+
+
+#endif // REGLE_H
+
 
