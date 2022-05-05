@@ -15,6 +15,7 @@ nous les utiliserons par la suite que lorsque nous allons définir nos méthode 
 */
 
 #include <iostream>
+#include <ostream>
 
 #ifndef PIECE_H
 #define PIECE_H
@@ -50,6 +51,9 @@ public:
     bool getCouleur() const;
     bool deplacement() const;
     TypePiece getTypePiece() const;
+    friend ostream& operator<< (std::ostream &out, const Piece &piece);
+    char typeToChar(TypePiece type) const;
+    char colorToChar(bool color) const;
 
     virtual bool mouvementLegal(const Echequier* echequier,const pair<int,int> &coordoneeInit, const pair<int,int> &coordoneeFinale) const = 0;
 

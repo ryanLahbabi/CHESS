@@ -112,16 +112,16 @@ QGraphicsScene* modele::Affichage::getGraphique()
 
 //void modele::Affichage::getSignal(QString signal)
 //{
-//    string responseString = response.toStdString();
+//    string responseString = signal.toStdString();
 
 //    if (responseString.compare("Check") == 0)
 //    {
 //        qDebug() << "Check";
-//        check->setPlainText("Check!");
+//        verification->setPlainText("Check!");
 //    }
 //    else
 //    {
-//        check->setPlainText("");
+//        verification->setPlainText("");
 //    }
 
 //    // If response was "Invalid Move", ignore it
@@ -133,13 +133,13 @@ QGraphicsScene* modele::Affichage::getGraphique()
 //    else if (responseString.compare("Checkmate") == 0)
 //    {
 //        qDebug() << "Checkmate!";
-//        check->setPlainText("Checkmate!");
+//        verification->setPlainText("Checkmate!");
 //        return;
 //    }
 //    else if (responseString.compare("Stalemate") == 0)
 //    {
 //        qDebug() << "Stalemate!";
-//        check->setPlainText("Stalemate!");
+//        verification->setPlainText("Stalemate!");
 //        return;
 //    }
 //    // Otherwise, use the response from Game to move the correct pieces
@@ -147,83 +147,83 @@ QGraphicsScene* modele::Affichage::getGraphique()
 //    {
 //        qDebug() << "Display got permission from Game to move icons.";
 ////        qDebug() << "The response Game sent back was " << response;
-//        if (response == "Castle White Kingside")
+//        if (signal == "Castle White Kingside")
 //        {
 //            qDebug() << "Display needs to castle white kingside.";
-//            QString tempKing = spaceList[60]->getImage();
-//            spaceList[60]->clearImage();
-//            QString tempRook = spaceList[63]->getImage();
-//            spaceList[63]->clearImage();
+//            QString tempKing = ListeDePiece[60]->getPng();
+//            ListeDePiece[60]->clearPng();
+//            QString tempRook = ListeDePiece[63]->getPng();
+//            ListeDePiece[63]->clearPng();
 
-//            spaceList[62]->setImage(tempKing);
-//            spaceList[61]->setImage(tempRook);
-//        } else if (response == "Castle White Queenside")
+//            ListeDePiece[62]->setPng(tempKing);
+//            ListeDePiece[61]->setPng(tempRook);
+//        } else if (signal == "Castle White Queenside")
 //        {
 //            qDebug() << "Display needs to castle white queenside.";
-//            QString tempKing = spaceList[60]->getImage();
-//            spaceList[60]->clearImage();
-//            QString tempRook = spaceList[56]->getImage();
-//            spaceList[56]->clearImage();
+//            QString tempKing = ListeDePiece[60]->getPng();
+//            ListeDePiece[60]->clearPng();
+//            QString tempRook = ListeDePiece[56]->getPng();
+//            ListeDePiece[56]->clearPng();
 
-//            spaceList[58]->setImage(tempKing);
-//            spaceList[59]->setImage(tempRook);
-//        } else if (response == "Castle Black Kingside")
+//            ListeDePiece[58]->setPng(tempKing);
+//            ListeDePiece[59]->setPng(tempRook);
+//        } else if (signal == "Castle Black Kingside")
 //        {
 //            qDebug() << "Display needs to castle black kingside.";
-//            QString tempKing = spaceList[4]->getImage();
-//            spaceList[4]->clearImage();
-//            QString tempRook = spaceList[7]->getImage();
-//            spaceList[7]->clearImage();
+//            QString tempKing = ListeDePiece[4]->getPng();
+//            ListeDePiece[4]->clearPng();
+//            QString tempRook = ListeDePiece[7]->getPng();
+//            ListeDePiece[7]->clearPng();
 
-//            spaceList[6]->setImage(tempKing);
-//            spaceList[5]->setImage(tempRook);
-//        } else if (response == "Castle Black Queenside")
+//            ListeDePiece[6]->setPng(tempKing);
+//            ListeDePiece[5]->setPng(tempRook);
+//        } else if (signal == "Castle Black Queenside")
 //        {
 //            qDebug() << "Display needs to castle black queenside.";
-//            QString tempKing = spaceList[4]->getImage();
-//            spaceList[4]->clearImage();
-//            QString tempRook = spaceList[0]->getImage();
-//            spaceList[0]->clearImage();
+//            QString tempKing = ListeDePiece[4]->getPng();
+//            ListeDePiece[4]->clearPng();
+//            QString tempRook = ListeDePiece[0]->getPng();
+//            ListeDePiece[0]->clearPng();
 
-//            spaceList[2]->setImage(tempKing);
-//            spaceList[3]->setImage(tempRook);
+//            ListeDePiece[2]->setPng(tempKing);
+//            ListeDePiece[3]->setPng(tempRook);
 //        }
 //        else
 //        {
 //            QString firstSpace = "";
 //            QString secondSpace = "";
-//            firstSpace += response[0];
-//            firstSpace += response[1];
-//            secondSpace += response[2];
-//            secondSpace += response[3];
+//            firstSpace += signal[0];
+//            firstSpace += signal[1];
+//            secondSpace += signal[2];
+//            secondSpace += signal[3];
 
 //            QString temp;
-//            for (int i=0; i<spaceList.length(); i++ )
+//            for (int i=0; i<ListeDePiece.length(); i++ )
 //            {
-//                if (spaceList[i]->getName() == firstSpace)
+//                if (ListeDePiece[i]->getNomPiece() == firstSpace)
 //                {
-//                    temp = spaceList[i]->getImage();
-//                    spaceList[i]->clearImage();
+//                    temp = ListeDePiece[i]->getPng();
+//                    ListeDePiece[i]->clearPng();
 //                }
 //            }
-//            for (int i=0; i<spaceList.length(); i++ )
+//            for (int i=0; i<ListeDePiece.length(); i++ )
 //            {
-//                if (spaceList[i]->getName() == secondSpace)
+//                if (ListeDePiece[i]->getNomPiece() == secondSpace)
 //                {
-//                    spaceList[i]->setImage(temp);
+//                    ListeDePiece[i]->setPng(temp);
 //                }
 //            }
 //        }
 
-//        if (turnColor == WHITE)
+//        if (couleur == true)
 //        {
-//            turnColor = BLACK;
-//            turn->setPlainText("Black's Turn");
+//            couleur = false;
+//            tourJoueur->setPlainText("Black's Turn");
 //        }
 //        else
 //        {
-//            turnColor = WHITE;
-//            turn->setPlainText("White's Turn");
+//            couleur = true;
+//            tourJoueur->setPlainText("White's Turn");
 //        }
 //    }
 

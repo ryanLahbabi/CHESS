@@ -7,6 +7,12 @@ modele::Piece::Piece(TypePiece t, bool c)
     couleur_ = c;
     mouvement_ = 0;
 }
+std::ostream &operator<<(std::ostream &out, const modele::Piece &piece)
+{
+    // This has to use a getter because this is a friend function
+    out << " " << piece.colorToChar(piece.getCouleur()) << piece.typeToChar(piece.getTypePiece()) << " ";
+    return out;
+}
 
 bool modele::Piece::getCouleur() const
 {
@@ -41,4 +47,29 @@ void modele::Piece::incrementer()
 void modele::Piece::decrementer()
 {
     --mouvement_;
+}
+
+
+
+char modele::Piece::typeToChar(TypePiece type) const
+{
+    switch(type)
+    {
+        case PION: return 'P';
+        case CAVALIER: return 'N';
+        case FOU: return 'B';
+        case TOUR: return 'R';
+        case REINE: return 'Q';
+        case ROI: return 'K';
+        default: return ' ';
+    }
+}
+
+char modele::Piece::colorToChar(bool color) const
+{
+    if(color)
+    {
+      return 'W';
+    }
+    return 'B';
 }

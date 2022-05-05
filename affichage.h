@@ -18,7 +18,7 @@ public:
     Affichage();
     QGraphicsScene* getGraphique();
 //public slots:
-   // void getSignal(QString signal);
+//   void getSignal(QString signal);
 private:
     QGraphicsScene * afficherJeu;
     Jeu jeu;

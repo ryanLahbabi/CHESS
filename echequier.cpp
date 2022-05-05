@@ -206,26 +206,39 @@ modele::Piece* modele::Echequier::getPiece(const pair<int,int> &coordonee) const
 
 void modele::Echequier::afficher() const
 {
-    int i = 1;
-    for (auto const &[key, val] : cases_)
+    int iterator = 1;
+    int row = 8;
+    std::cout << "    a   b   c   d   e   f   g   h" << "\n\n";
+    for (auto const &[key, val] : cases_)								// loop over contents of squares
     {
-        const Piece* p = cases_.find(key)->second->getPieces();
-        if (p == nullptr)
+        if ((iterator - 1) % 8 == 0)
         {
-            cout << " -- ";
+            std::cout << row << "  ";									// print row number at beginning of column
+        }
+
+        const Piece* piece = cases_.find(key)->second->getPieces();		// get the piece at the square
+        if (piece == nullptr)
+        {
+            std::cout << " -- ";										// no piece here, so print filler
         }
         else
         {
-            cout << "00";
+            std::cout << *piece;										// print piece
         }
 
-        if (i % 8 == 0)
+        if (iterator % 8 == 0)
         {
-            cout << "\n";
+            std::cout << "  " << row;									// print row number at end of column
+            row--;
+            std::cout << '\n';											// print newline every 8 columns
         }
-        i++;
+        iterator++;
+
+        // This variable is currently unused - so this silences the compiler warnings
+        (void) val;
     }
-    cout << "\n" << "\n";
+    std::cout << '\n';
+    std::cout << "    a   b   c   d   e   f   g   h" << '\n';
 }
 
 bool modele::Echequier::bougerPiece(const pair<int, int> &coordoneeInit, const pair<int, int> &coordoneeFinale)
