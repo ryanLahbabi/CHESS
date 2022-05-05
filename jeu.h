@@ -48,11 +48,11 @@ private:
     string mouvement1_ = "";
     string mouvement2_ = "";
     bool tour_ = true;
-//public slots:
-//    void getEntree(QString entree);
+public slots:
+    void getEntree(QString entree);
 
-//signals:
-//    void envoyerSignal(QString sortie);
+signals:
+    void envoyerSignal(QString sortie);
 
 
 };

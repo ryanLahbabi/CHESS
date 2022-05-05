@@ -204,33 +204,33 @@ modele::Piece* modele::Echequier::getPiece(const pair<int,int> &coordonee) const
 
 
 
-void modele::Echequier::afficher() const
+void modele::Echequier::afficher()
 {
     int iterator = 1;
     int row = 8;
-    std::cout << "    a   b   c   d   e   f   g   h" << "\n\n";
+    cout << "    a   b   c   d   e   f   g   h" << "\n\n";
     for (auto const &[key, val] : cases_)								// loop over contents of squares
     {
         if ((iterator - 1) % 8 == 0)
         {
-            std::cout << row << "  ";									// print row number at beginning of column
+            cout << row << "  ";									// print row number at beginning of column
         }
 
         const Piece* piece = cases_.find(key)->second->getPieces();		// get the piece at the square
         if (piece == nullptr)
         {
-            std::cout << " -- ";										// no piece here, so print filler
+            cout << " -- ";										// no piece here, so print filler
         }
         else
         {
-            std::cout << *piece;										// print piece
+            cout << 0;										// print piece
         }
 
         if (iterator % 8 == 0)
         {
-            std::cout << "  " << row;									// print row number at end of column
+            cout << "  " << row;									// print row number at end of column
             row--;
-            std::cout << '\n';											// print newline every 8 columns
+            cout << '\n';											// print newline every 8 columns
         }
         iterator++;
 

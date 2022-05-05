@@ -41,7 +41,7 @@ class Echequier
 public:
     Echequier();
 
-    void afficher() const;
+    void afficher();
     void pieceForcer(const pair<int, int> &coordoneeInit, const pair<int, int> &coordoneeFinale);
     bool bougerPiece(const pair<int, int> &coordoneeInit, const pair<int, int> &coordoneeFinale);
     Piece* getPiece(const pair<int,int> &coordonee) const;

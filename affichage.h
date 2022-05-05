@@ -17,8 +17,8 @@ class Affichage: public QObject
 public:
     Affichage();
     QGraphicsScene* getGraphique();
-//public slots:
-//   void getSignal(QString signal);
+public slots:
+   void getSignal(QString signal);
 private:
     QGraphicsScene * afficherJeu;
     Jeu jeu;

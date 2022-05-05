@@ -66,6 +66,14 @@ void modele::Jeu::demarrer()
     }
 
 }
+string modele::Jeu::afficherCouleur(bool couleur)
+{
+    if (couleur)
+    {
+        return "White";
+    }
+        return "Black";
+}
 bool modele::Jeu::estEnEchec(bool couleur) const
 {
     bool couleurAdverse = true;
@@ -168,4 +176,99 @@ void modele::Jeu::afficherEchiquier()
     echequier_.afficher();
 }
 
+void modele::Jeu::getEntree(QString entree)
+{
+    //qDebug() << "Game saw that " << input << "was clicked, and will now respond.";
+
+    // If this is the first click, store it in move1
+    if (mouvement1_ == "")
+    {
+        mouvement1_ = entree.toStdString();
+    }
+    // If this is the second click, store it in move2
+    else
+    {
+        mouvement2_ = entree.toStdString();
+
+
+        // We can now pass the move to the Game
+        int colonne = mouvement1_[0] - 'a';
+        int ligne = 8 - (mouvement1_[1] - '0');
+        pair<int, int> init = make_pair(ligne,colonne);
+
+        colonne = mouvement2_[0] - 'a';
+        ligne = 8 - (mouvement2_[1] - '0');
+
+        pair<int, int> finale = make_pair(ligne,colonne);		// convert substring to pair
+
+        // Verify that a piece was selected
+        if (echequier_.getPiece(init) == nullptr)
+        {
+            envoyerSignal("Invalid Move");
+            refaireMouvement();
+            return;
+        }
+
+        if (echequier_.getPiece(init)->getCouleur() != tour_)
+        {
+            std::cout << "Error: It's " << afficherCouleur(tour_) << "'s turn." << '\n';
+
+            emit envoyerSignal("Invalid Move");
+            refaireMouvement();
+            return;
+        }
+
+        // Check if this is an attempted castle and handle accordingly
+        if (echequier_.getPiece(init)->getTypePiece() == ROI && echequier_.distance(init, finale) > 1)
+        {
+
+        }
+
+        // Attempt to move piece
+        // TODO: Check for castling here?
+        else if (echequier_.bougerPiece(init, finale))
+        {
+            // Verify that move doesn't put player in check, else switch players
+            if (estEnEchec(tour_))
+            {
+                // If move puts player in check, print error, revert move, and let player enter different move
+                std::cout << "Error: This leaves " << afficherCouleur(tour_) << " in check.\n";
+                //qDebug() << "Error: This leaves you in check.";
+                //board.revertLastMove();
+                envoyerSignal("Invalid Move");
+            }
+            // If the move was valid, switch turns and send "Valid" response
+            else
+            {
+                switchGuiTurn();
+
+                // Send QString response containing the two spaces of the valid move
+                QString sendStr = "";
+                QString part1 = QString::fromStdString(mouvement1_);
+                QString part2 = QString::fromStdString(mouvement2_);
+                sendStr += part1;
+                sendStr += part2;
+                envoyerSignal(sendStr);
+            }
+        }
+        else
+        {
+            std::cout << "Error: Invalid move.\n";
+           // qDebug() << "Error: Invalid move.";
+            envoyerSignal("Invalid Move");
+        }
+
+        if(estEnEchecEtMat(tour_)==true)
+        {
+            envoyerSignal("Checkmate");
+        }
+        else if (estEnEchec(tour_)==true)
+        {
+            envoyerSignal("Check");
+        }
+
+        refaireMouvement();
+    }
+
+}
 
