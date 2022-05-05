@@ -1,6 +1,13 @@
 #include <iostream>
 #include "Piece.h"
 
+modele::Piece::Piece(TypePiece t, bool c)
+{
+    type_ = t;
+    couleur_ = c;
+    mouvement_ = 0;
+}
+
 bool modele::Piece::getCouleur() const
 {
     return couleur_;

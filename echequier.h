@@ -14,11 +14,6 @@ Les avertissements de builds sont juste dû au fait que nous n'utilisons pas enc
 nous les utiliserons par la suite que lorsque nous allons définir nos méthode pour chaucune des pièces de l'échiquier.
 */
 
-
-
-#ifndef ECHEQUIER_H
-#define ECHEQUIER_H
-
 #include <QObject>
 #include <cmath>
 #include <iostream>
@@ -27,30 +22,31 @@ nous les utiliserons par la suite que lorsque nous allons définir nos méthode 
 
 #include "case.h"
 
+#ifndef ECHEQUIER_H
+#define ECHEQUIER_H
+
+
+
 using namespace std;
 
-namespace modele //Ajout de namespace modele
+//class Piece;
+
+
+namespace modele
 {
 
-class Piece;
 
 class Echequier
 {
 public:
     Echequier();
-    ~Echequier();
 
-    void board();
     void afficher() const;
-    void bougerPiece(const pair<int, int> &coordoneeInit, const pair<int, int> &coordoneeFinale);
-
-
+    void pieceForcer(const pair<int, int> &coordoneeInit, const pair<int, int> &coordoneeFinale);
+    bool bougerPiece(const pair<int, int> &coordoneeInit, const pair<int, int> &coordoneeFinale);
     Piece* getPiece(const pair<int,int> &coordonee) const;
-
     int distance(const pair<int,int> &coordoneeInit,const pair<int,int> &coordoneeFinale) const;
-
-
-    bool mouvementValide(const pair<int,int> &coordonee,const pair<int,int> &coordoneeRoi) const;
+    bool mouvementLegal(const pair<int,int> &coordoneeInit,const pair<int,int> &coordoneeFinale) const;
     bool positionNonValide(const pair<int,int> &coordonee) const;
     bool dansJeu(const pair<int,int> &coordonee) const;
     bool couleurNonValide(const pair<int,int> &coordoneeInit, const pair<int,int> &coordoneeFinale) const;
@@ -78,9 +74,6 @@ private:
     vector<pair<pair<int,int>, pair<int,int>>> mouvement_;
 
 };
-
-
 }
-
 
 #endif // ECHEQUIER_H

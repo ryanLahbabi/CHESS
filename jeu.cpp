@@ -79,7 +79,7 @@ bool modele::Jeu::estEnEchec(bool couleur) const
 
     for (auto adversite : coordoneePiece)
     {
-        if (echequier_.mouvementValide(adversite, coordoneeRoi))
+        if (echequier_.mouvementLegal(adversite, coordoneeRoi))
         {
             return true;
         }

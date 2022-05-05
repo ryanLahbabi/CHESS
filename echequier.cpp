@@ -113,14 +113,39 @@ vector<pair<int,int>> modele::Echequier::getCoordoneePiece(bool couleur) const
     return emplacement;
 }
 
-bool modele::Echequier::mouvementValide(const pair<int,int> &coordonee,const pair<int,int> &coordoneeRoi) const
+bool modele::Echequier::mouvementLegal(const pair<int,int> &coordoneeInit,const pair<int,int> &coordoneeFinale) const
 {
+    if (!dansJeu(coordoneeInit) || !dansJeu(coordoneeFinale))
+    {
+        return false;
+    }
+
+    // Check if to location is occupied by piece of same color
+    if (couleurNonValide(coordoneeInit, coordoneeFinale))
+    {
+
+        return false;
+    }
+
+    // Check if this is a valid move for this piece
+    const Piece *piece = getPiece(coordoneeInit);
+    if (piece == nullptr)
+    {
+
+        return false;
+    }
+    if (!piece->mouvementLegal(this, coordoneeInit, coordoneeFinale))
+    {
+        return false;
+    }
+
     return true;
 }
 
+
 bool modele::Echequier::mouvementPiece(const pair <int,int> &coordoneeInit, const pair<int,int> &coordoneeFinale)
 {
-    if(mouvementValide(coordoneeInit, coordoneeFinale))
+    if(mouvementLegal(coordoneeInit, coordoneeFinale))
     {
         if (cases_[coordoneeFinale]->getPieces() != nullptr)
         {
@@ -203,4 +228,221 @@ void modele::Echequier::afficher() const
     cout << "\n" << "\n";
 }
 
+bool modele::Echequier::bougerPiece(const pair<int, int> &coordoneeInit, const pair<int, int> &coordoneeFinale)
+{
+    if (mouvementLegal(coordoneeInit, coordoneeFinale))
+    {
+        if (cases_[coordoneeFinale]->getPieces() != nullptr)
+        {
+            size_t index = mouvement_.size();
+            pieceCapturer_.insert(pair<int, unique_ptr<Piece>>(index, setPiece(coordoneeFinale, nullptr)));
+        }
 
+        setPiece(coordoneeInit, setPiece(coordoneeInit, nullptr));
+        getPiece(coordoneeInit)->incrementer();
+        mouvement_.emplace_back(coordoneeInit, coordoneeFinale);
+
+        return true;
+    }
+
+    return false;
+}
+
+
+void modele::Echequier::pieceForcer(const pair<int, int> &coordoneeInit, const pair<int, int> &coordoneeFinale)
+{
+    setPiece(coordoneeFinale, setPiece(coordoneeInit, nullptr));
+}
+
+bool modele::Echequier::couleurNonValide(const pair<int,int> &coordoneeInit, const pair<int,int> &coordoneeFinale) const
+{
+    const Piece *PieceInit = getPiece(coordoneeInit);
+    bool couleurInit;
+    if (PieceInit != nullptr)
+    {
+        couleurInit = PieceInit->getCouleur();
+    }
+    else
+    {
+        return false;
+    }
+
+    const Piece *PieceFinale = getPiece(coordoneeFinale);
+    bool couleurFinale;
+    if (PieceFinale != nullptr)
+    {
+        couleurFinale = PieceFinale->getCouleur();
+    }
+    else
+    {
+        return false;
+    }
+
+    return couleurInit == couleurFinale;
+}
+
+
+bool modele::Echequier::couleurDiffNonValide(const pair<int,int> &coordoneeInit, const pair<int,int> &coordoneeFinale) const
+{
+    const Piece *PieceInit = getPiece(coordoneeInit);
+    bool couleurInit;
+    if (PieceInit != nullptr)
+    {
+        couleurInit = PieceInit->getCouleur();
+    }
+    else
+    {
+        return false;
+    }
+
+    const Piece *PieceFinale = getPiece(coordoneeFinale);
+    bool couleurFinale;
+    if (PieceFinale != nullptr)
+    {
+        couleurFinale = PieceFinale->getCouleur();
+    }
+    else
+    {
+        return false;
+    }
+
+    return couleurInit != couleurFinale;
+
+}
+
+bool modele::Echequier::mouvementVerticale(const pair<int,int> &coordoneeInit, const pair<int,int> &coordoneeFinale) const
+{
+
+    return coordoneeInit.second == coordoneeFinale.second;
+
+}
+
+bool modele::Echequier::mouvementHorizontale(const pair<int,int> &coordoneeInit, const pair<int,int> &coordoneeFinale) const
+{
+    return coordoneeInit.first == coordoneeFinale.first;
+}
+bool modele::Echequier::mouvementDiagonale(const pair<int,int> &coordoneeInit, const pair<int,int> &coordoneeFinale) const
+{
+    int avancementHorizontal = coordoneeFinale.second - coordoneeInit.second;
+    int avancementVertical = coordoneeFinale.first - coordoneeInit.first;
+    return abs(avancementHorizontal) == abs(avancementVertical);
+}
+bool modele::Echequier::avancer(const pair<int, int> &coordoneeInit, const pair<int, int> &coordoneeFinale, const Piece* piece) const
+{
+    bool couleurPiece = piece->getCouleur();
+    if(couleurPiece  == false && coordoneeInit.first < coordoneeFinale.first)
+    {
+        return true;
+    }
+    else if(couleurPiece  == true && coordoneeInit.first > coordoneeFinale.first)
+    {
+        return true;
+    }
+    return false;
+
+}
+bool modele::Echequier::cavalierBouger(const pair<int, int> &coordoneeInit, const pair<int, int> &coordoneeFinale) const
+{
+    int avancementHorizontal = abs(coordoneeFinale.second - coordoneeInit.second);
+    int avancementVertical = abs(coordoneeFinale.first - coordoneeInit.first);
+    if((avancementVertical ==2 && avancementHorizontal == 1) || (avancementVertical ==1 && avancementHorizontal == 2))
+        return true;
+
+    return false;
+
+}
+bool modele::Echequier::caseLibre(const pair<int, int> &coordoneeInit, const pair<int, int> &coordoneeFinale) const
+{
+    int longueurMouvement = distance(coordoneeInit, coordoneeFinale);
+    bool mouvementVert = mouvementVerticale(coordoneeInit, coordoneeFinale);
+    bool mouvementHoriz = mouvementHorizontale(coordoneeInit, coordoneeFinale);
+    bool mouvementDiag = mouvementDiagonale(coordoneeInit, coordoneeFinale);
+    bool changerCamp = coordoneeInit.first < coordoneeFinale.first;
+    bool  changerCote = coordoneeInit.second < coordoneeFinale.second;
+
+    if (longueurMouvement == 0 || longueurMouvement == 1)
+    {
+        return true;
+    }
+
+    pair<int,int> coordInit = coordoneeInit;
+    pair<int,int> coordFinale = coordoneeFinale;
+    if (mouvementVert)
+    {
+        if (!changerCamp)
+        {
+            swap(coordInit, coordFinale);
+        }
+
+        for (int i = coordInit.first + 1; i < coordFinale.first; i++)
+        {
+            if (positionNonValide(make_pair(i, coordFinale.second)))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+    else if (mouvementHoriz)
+    {
+        if (!changerCote)
+        {
+            swap(coordInit, coordFinale);
+        }
+
+        for (int i = coordInit.second + 1; i < coordoneeFinale.second; i++)
+        {
+            if (positionNonValide(make_pair(coordInit.first, i)))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    else if (mouvementDiag)
+    {
+        if (changerCamp == changerCote)
+        {
+
+            if (!changerCamp && !changerCote)
+            {
+                swap(coordInit, coordFinale);
+            }
+
+            int col = coordInit.second + 1;
+            for (int row = coordInit.first + 1; row < coordoneeFinale.first; row++)
+            {
+                if (positionNonValide(make_pair(row, col)))
+                {
+                    return false;
+                }
+                col++;
+            }
+
+            return true;
+
+        }
+        else if (changerCamp != changerCote)
+        {
+            if (changerCamp && !changerCote)
+            {
+                swap(coordInit, coordFinale);
+            }
+
+            int col = coordInit.second + 1;
+            for (int row = coordInit.first - 1; row > coordoneeFinale.first; row--)
+            {
+                if (positionNonValide(make_pair(row, col)))
+                {
+                    return false;
+                }
+                col++;
+            }
+
+
+            return true;
+        }
+    }
+    return false;
+}

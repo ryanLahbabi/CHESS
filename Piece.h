@@ -26,7 +26,7 @@ using namespace std;
 
 namespace modele{
 
-
+class Echequier;
 enum TypePiece
 {
     ROI,
@@ -36,9 +36,6 @@ enum TypePiece
     TOUR,
     PION
 };
-
-
-class Echequier;
 class Piece
 {
 public:
@@ -53,9 +50,6 @@ public:
     bool getCouleur() const;
     bool deplacement() const;
     TypePiece getTypePiece() const;
-
-    virtual bool Raii(shared_ptr<Piece> piecePtr);
-
 
     virtual bool mouvementLegal(const Echequier* echequier,const pair<int,int> &coordoneeInit, const pair<int,int> &coordoneeFinale) const = 0;
 
