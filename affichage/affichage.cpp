@@ -1,13 +1,16 @@
+// Cette classe permet de configurer l'echiquier que vous voulons afficher, nous avons fais en sorte d'afficher les cases en vert et gris foncé.
+//Aussi nous avons reglé la taille des cases et de l'échiquier à l'aide des outils QT.
+// De plus nous avons pu afficher les images des pièces dans les ressources à des positions bien determiner sur l'échiquier afin que l'interface satisfait les règles du  jeu d'échec.
 #include "affichage.h"
 
 
 modele::Affichage::Affichage()
 {
-    QObject::connect(&jeu, SIGNAL(envoyerMessage(QString)), this, SLOT(getSignal(QString)));
+    QObject::connect(&jeu, SIGNAL(envoyerSignal(QString)), this, SLOT(getSignal(QString)));
     afficherJeu = new QGraphicsScene();
     debut();
     piecesPlacer();
-    couleur = true;
+    couleur = BLANC;
 }
 
 void modele::Affichage::debut()
@@ -34,7 +37,7 @@ void modele::Affichage::debut()
          r->setNomPiece(nomCase);
          ListeDePiece.append(r);
          afficherJeu->addItem(r);
-        QObject::connect(r, SIGNAL(sendSignal(QString)), &jeu, SLOT(getInput(QString)));
+        QObject::connect(r, SIGNAL(envoyerMessage(QString)), &jeu, SLOT(getEntree(QString)));
         j += 75;
         if (j == 600)
         {
@@ -42,6 +45,19 @@ void modele::Affichage::debut()
             k += 75;
         }
     }
+
+
+
+  QGraphicsTextItem * match = new QGraphicsTextItem();
+
+  match->setPos(425, 0);
+  afficherJeu->addItem(match);
+  tourJoueur = new QGraphicsTextItem();
+  tourJoueur->setPos(425, 100);
+  afficherJeu->addItem(tourJoueur);
+  verification = new QGraphicsTextItem();
+  verification->setPos(425, 200);
+  afficherJeu->addItem(verification);
 }
 
 void modele::Affichage::piecesPlacer()
@@ -88,101 +104,56 @@ QGraphicsScene* modele::Affichage::getGraphique()
 }
 
 
-//Avoir une reponse du jeu et changer l image de la piece sur
-//la case de l'Ã©chiquier
+//Avoir une reponse du jeu et changer l image de la piece sur la case de l'echiquier
 
 
 void modele::Affichage::getSignal(QString signal)
 {
     string responseString = signal.toStdString();
 
-    if (responseString.compare("Check") == 0)
+    if (responseString.compare("Ecehc") == 0)
     {
-        qDebug() << "Check";
-        verification->setPlainText("Check!");
+        qDebug() << "Echec";
+        verification->setPlainText("Echec!");
     }
     else
     {
-        verification->setPlainText("");
+        verification->setPlainText("Rien à signaler");
     }
 
-    // If response was "Invalid Move", ignore it
-    if (responseString.compare("Invalid Move") == 0)
+    // Si la réponse est invalide il faut que le programme ignore la commande
+    if (responseString.compare("Mouvement Interdit") == 0)
     {
-        qDebug() << "Invalid Move";
+        qDebug() << "Mouvement Interdit";
         return;
     }
-    else if (responseString.compare("Checkmate") == 0)
+    else if (responseString.compare("Echec et mat") == 0)
     {
-        qDebug() << "Checkmate!";
-        verification->setPlainText("Checkmate!");
+        qDebug() << "Echec et mat";
+        verification->setPlainText("Echec et mat");
         return;
     }
-    else if (responseString.compare("Stalemate") == 0)
+    else if (responseString.compare("Match nul") == 0)
     {
-        qDebug() << "Stalemate!";
-        verification->setPlainText("Stalemate!");
+        qDebug() << "Match nul";
+        verification->setPlainText("Match nul");
         return;
     }
-    // Otherwise, use the response from Game to move the correct pieces
-    else
-    {
-        qDebug() << "Display got permission from Game to move icons.";
-//        qDebug() << "The response Game sent back was " << response;
-        if (signal == "Castle White Kingside")
-        {
-            qDebug() << "Display needs to castle white kingside.";
-            QString tempKing = ListeDePiece[60]->getPng();
-            ListeDePiece[60]->clearPng();
-            QString tempRook = ListeDePiece[63]->getPng();
-            ListeDePiece[63]->clearPng();
 
-            ListeDePiece[62]->setPng(tempKing);
-            ListeDePiece[61]->setPng(tempRook);
-        } else if (signal == "Castle White Queenside")
-        {
-            qDebug() << "Display needs to castle white queenside.";
-            QString tempKing = ListeDePiece[60]->getPng();
-            ListeDePiece[60]->clearPng();
-            QString tempRook = ListeDePiece[56]->getPng();
-            ListeDePiece[56]->clearPng();
 
-            ListeDePiece[58]->setPng(tempKing);
-            ListeDePiece[59]->setPng(tempRook);
-        } else if (signal == "Castle Black Kingside")
-        {
-            qDebug() << "Display needs to castle black kingside.";
-            QString tempKing = ListeDePiece[4]->getPng();
-            ListeDePiece[4]->clearPng();
-            QString tempRook = ListeDePiece[7]->getPng();
-            ListeDePiece[7]->clearPng();
-
-            ListeDePiece[6]->setPng(tempKing);
-            ListeDePiece[5]->setPng(tempRook);
-        } else if (signal == "Castle Black Queenside")
-        {
-            qDebug() << "Display needs to castle black queenside.";
-            QString tempKing = ListeDePiece[4]->getPng();
-            ListeDePiece[4]->clearPng();
-            QString tempRook = ListeDePiece[0]->getPng();
-            ListeDePiece[0]->clearPng();
-
-            ListeDePiece[2]->setPng(tempKing);
-            ListeDePiece[3]->setPng(tempRook);
-        }
         else
         {
-            QString firstSpace = "";
-            QString secondSpace = "";
-            firstSpace += signal[0];
-            firstSpace += signal[1];
-            secondSpace += signal[2];
-            secondSpace += signal[3];
+            QString premierEspace = "";
+            QString deuxiemeEspace = "";
+            premierEspace += signal[0];
+            premierEspace += signal[1];
+            deuxiemeEspace += signal[2];
+            deuxiemeEspace+= signal[3];
 
             QString temp;
             for (int i=0; i<ListeDePiece.length(); i++ )
             {
-                if (ListeDePiece[i]->getNomPiece() == firstSpace)
+                if (ListeDePiece[i]->getNomPiece() == premierEspace)
                 {
                     temp = ListeDePiece[i]->getPng();
                     ListeDePiece[i]->clearPng();
@@ -190,23 +161,24 @@ void modele::Affichage::getSignal(QString signal)
             }
             for (int i=0; i<ListeDePiece.length(); i++ )
             {
-                if (ListeDePiece[i]->getNomPiece() == secondSpace)
+                if (ListeDePiece[i]->getNomPiece() == deuxiemeEspace)
                 {
                     ListeDePiece[i]->setPng(temp);
                 }
             }
         }
 
-        if (couleur == true)
+        if (couleur == NOIR)
         {
-            couleur = false;
-            tourJoueur->setPlainText("Black's Turn");
+            couleur = BLANC;
+            tourJoueur->setPlainText("Tour des blancs");
         }
         else
         {
-            couleur = true;
-            tourJoueur->setPlainText("White's Turn");
+            couleur = NOIR;
+            tourJoueur->setPlainText("Tour des Noirs");
         }
-    }
+ }
 
-}
+
+

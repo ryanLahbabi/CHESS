@@ -13,57 +13,55 @@ fonctions proviennet de echequier.h et nous devons régler un problème de compi
 Les avertissements de builds sont juste dû au fait que nous n'utilisons pas encore nos attributs x et y,
 nous les utiliserons par la suite que lorsque nous allons définir nos méthode pour chaucune des pièces de l'échiquier.
 */
+#ifndef JEU_H
+#define JEU_H
 
+
+
+
+#include <QObject>
+#include <QString>
+#include <QDebug>
+
+#include <echequier.h>
 #include <iostream>
-#include <ostream>
-
-#ifndef PIECE_H
-#define PIECE_H
-
-
-
 using namespace std;
 
 
-namespace modele{
-
-class Echequier;
-enum TypePiece
+namespace modele {
+class Jeu : public QObject
 {
-    ROI,
-    REINE,
-    CAVALIER,
-    FOU,
-    TOUR,
-    PION
-};
-class Piece
-{
+    Q_OBJECT
 public:
-    Piece(TypePiece, bool couleur);
+    void demarrer();
 
-    virtual ~Piece() = default;
+    bool bouger(pair<int,int> coordoneeInit, pair<int,int> coordoneeFinale);
+    bool roque(modele::Couleur c, pair<int, int> init, pair <int, int> final );
 
-    void setCouleur(bool couleur);
-    void setType(TypePiece type);
-    void incrementer();
-    void decrementer();
-    bool getCouleur() const;
-    bool deplacement() const;
-    TypePiece getTypePiece() const;
-    friend ostream& operator<< (std::ostream &out, const Piece &piece);
-    char typeToChar(TypePiece type) const;
-    char colorToChar(bool color) const;
+    bool estEnEchec(modele::Couleur c) const;
+    bool estEnEchecEtMat(modele::Couleur c);
+    bool estMatchNul(modele::Couleur c);
+    Couleur getChangerCouleur(int nombre) const;
+    void changerCouleur();
 
-    virtual bool mouvementLegal(const Echequier* echequier,const pair<int,int> &coordoneeInit, const pair<int,int> &coordoneeFinale) const = 0;
+    void refaireMouvement();
+    void afficherEchiquier();
 
-protected:
-    bool couleur_ = true;// Si cest faux(0) la piece noir, si c'est true(1) la piece blanche
-    TypePiece type_;
-    int mouvement_;
+private:
+    string afficherCouleur(modele::Couleur c);
+    Echequier echequier_;
+    QString guimove_;
+    string mouvement1_ = "";
+    string mouvement2_ = "";
+    Couleur changerCouleur_ = NOIR;
+public slots:
+    void getEntree(QString entree);
+
+signals:
+    void envoyerSignal(QString sortie);
 
 
 };
 }
 
-#endif // PIECE_H
+#endif // JEU_H

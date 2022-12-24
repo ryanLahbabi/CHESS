@@ -25,55 +25,55 @@ modele::Echequier::Echequier(){
     }
 
     //Pions
-    setPiece(make_pair(6,0), make_unique<Pion>(true));
-    setPiece(make_pair(6,1), make_unique<Pion>(true));
-    setPiece(make_pair(6,2), make_unique<Pion>(true));
-    setPiece(make_pair(6,3), make_unique<Pion>(true));
-    setPiece(make_pair(6,4), make_unique<Pion>(true));
-    setPiece(make_pair(6,5), make_unique<Pion>(true));
-    setPiece(make_pair(6,6), make_unique<Pion>(true));
-    setPiece(make_pair(6,7), make_unique<Pion>(true));
+    setPiece(make_pair(6,0), make_unique<Pion>(BLANC));
+    setPiece(make_pair(6,1), make_unique<Pion>(BLANC));
+    setPiece(make_pair(6,2), make_unique<Pion>(BLANC));
+    setPiece(make_pair(6,3), make_unique<Pion>(BLANC));
+    setPiece(make_pair(6,4), make_unique<Pion>(BLANC));
+    setPiece(make_pair(6,5), make_unique<Pion>(BLANC));
+    setPiece(make_pair(6,6), make_unique<Pion>(BLANC));
+    setPiece(make_pair(6,7), make_unique<Pion>(BLANC));
 
-    setPiece(make_pair(1,0), make_unique<Pion>(false));
-    setPiece(make_pair(1,1), make_unique<Pion>(false));
-    setPiece(make_pair(1,2), make_unique<Pion>(false));
-    setPiece(make_pair(1,3), make_unique<Pion>(false));
-    setPiece(make_pair(1,4), make_unique<Pion>(false));
-    setPiece(make_pair(1,5), make_unique<Pion>(false));
-    setPiece(make_pair(1,6), make_unique<Pion>(false));
-    setPiece(make_pair(1,7), make_unique<Pion>(false));
+    setPiece(make_pair(1,0), make_unique<Pion>(NOIR));
+    setPiece(make_pair(1,1), make_unique<Pion>(NOIR));
+    setPiece(make_pair(1,2), make_unique<Pion>(NOIR));
+    setPiece(make_pair(1,3), make_unique<Pion>(NOIR));
+    setPiece(make_pair(1,4), make_unique<Pion>(NOIR));
+    setPiece(make_pair(1,5), make_unique<Pion>(NOIR));
+    setPiece(make_pair(1,6), make_unique<Pion>(NOIR));
+    setPiece(make_pair(1,7), make_unique<Pion>(NOIR));
 
     //Cavalier
-    setPiece(make_pair(7,1), make_unique<Cavalier>(true));
-    setPiece(make_pair(7,6), make_unique<Cavalier>(true));
+    setPiece(make_pair(7,1), make_unique<Cavalier>(BLANC));
+    setPiece(make_pair(7,6), make_unique<Cavalier>(BLANC));
 
-    setPiece(make_pair(0,1), make_unique<Cavalier>(false));
-    setPiece(make_pair(7,6), make_unique<Cavalier>(false));
+    setPiece(make_pair(0,1), make_unique<Cavalier>(NOIR));
+    setPiece(make_pair(7,6), make_unique<Cavalier>(NOIR));
 
     //Reines
-    setPiece(make_pair(7,3), make_unique<Reine>(true));
+    setPiece(make_pair(7,3), make_unique<Reine>(BLANC));
 
-    setPiece(make_pair(0,3), make_unique<Reine>(false));
+    setPiece(make_pair(0,3), make_unique<Reine>(NOIR));
 
     //Roi
-    setPiece(make_pair(7,4), make_unique<Roi>(true));
+    setPiece(make_pair(7,4), make_unique<Roi>(BLANC));
 
-    setPiece(make_pair(0,4), make_unique<Roi>(false));
+    setPiece(make_pair(0,4), make_unique<Roi>(NOIR));
 
     //Fou
-    setPiece(make_pair(7,2), make_unique<Fou>(true));
-    setPiece(make_pair(7,5), make_unique<Fou>(true));
+    setPiece(make_pair(7,2), make_unique<Fou>(BLANC));
+    setPiece(make_pair(7,5), make_unique<Fou>(BLANC));
 
-    setPiece(make_pair(0,2), make_unique<Fou>(false));
-    setPiece(make_pair(0,5), make_unique<Fou>(false));
+    setPiece(make_pair(0,2), make_unique<Fou>(NOIR));
+    setPiece(make_pair(0,5), make_unique<Fou>(NOIR));
 
 
     //Tours
-    setPiece(make_pair(7,0), make_unique<Tour>(true));
-    setPiece(make_pair(7,7), make_unique<Tour>(true));
+    setPiece(make_pair(7,0), make_unique<Tour>(BLANC));
+    setPiece(make_pair(7,7), make_unique<Tour>(BLANC));
 
-    setPiece(make_pair(0,0), make_unique<Tour>(false));
-    setPiece(make_pair(0,0), make_unique<Tour>(false));
+    setPiece(make_pair(0,0), make_unique<Tour>(NOIR));
+    setPiece(make_pair(0,0), make_unique<Tour>(NOIR));
 
 };
 
@@ -83,7 +83,7 @@ int modele::Echequier::distance(const pair<int,int> &coordoneeInit,const pair<in
     return abs(coordoneeInit.first - coordoneeFinale.first);
 }
 
-pair<int,int> modele::Echequier::getRoi(bool couleur) const
+pair<int,int> modele::Echequier::getCoordoneeRoi(Couleur couleur) const
 {
     for (auto const& cases: cases_)
     {
@@ -96,7 +96,7 @@ pair<int,int> modele::Echequier::getRoi(bool couleur) const
     return make_pair(0,0);
 }
 
-vector<pair<int,int>> modele::Echequier::getCoordoneePiece(bool couleur) const
+vector<pair<int,int>> modele::Echequier::getCoordoneePiece(Couleur couleur) const
 {
     vector<pair<int,int>> emplacement;
     emplacement.reserve(cases_.size());
@@ -142,23 +142,6 @@ bool modele::Echequier::mouvementLegal(const pair<int,int> &coordoneeInit,const 
     return true;
 }
 
-
-bool modele::Echequier::mouvementPiece(const pair <int,int> &coordoneeInit, const pair<int,int> &coordoneeFinale)
-{
-    if(mouvementLegal(coordoneeInit, coordoneeFinale))
-    {
-        if (cases_[coordoneeFinale]->getPieces() != nullptr)
-        {
-            size_t i = mouvement_.size();
-            pieceCapturer_.insert(pair<int,unique_ptr<Piece>>(i, setPiece(coordoneeInit, nullptr)));
-        }
-        setPiece(coordoneeFinale, setPiece(coordoneeInit, nullptr));
-        getPiece(coordoneeFinale)->incrementer();
-        mouvement_.emplace_back(coordoneeInit, coordoneeFinale);
-        return true;
-    }
-   return false;
-}
 
 bool modele::Echequier::dansJeu(const pair<int,int> &coordonee) const
 {
@@ -209,28 +192,28 @@ void modele::Echequier::afficher()
     int iterator = 1;
     int row = 8;
     cout << "    a   b   c   d   e   f   g   h" << "\n\n";
-    for (auto const &[key, val] : cases_)								// loop over contents of squares
+    for (auto const &[key, val] : cases_)
     {
         if ((iterator - 1) % 8 == 0)
         {
-            cout << row << "  ";									// print row number at beginning of column
+            cout << row << "  ";
         }
 
-        const Piece* piece = cases_.find(key)->second->getPieces();		// get the piece at the square
+        const Piece* piece = cases_.find(key)->second->getPieces();
         if (piece == nullptr)
         {
-            cout << " -- ";										// no piece here, so print filler
+            cout << " -- ";
         }
         else
         {
-            cout << 0;										// print piece
+            cout << 0;
         }
 
         if (iterator % 8 == 0)
         {
-            cout << "  " << row;									// print row number at end of column
+            cout << "  " << row;
             row--;
-            cout << '\n';											// print newline every 8 columns
+            cout << '\n';
         }
         iterator++;
 
@@ -261,11 +244,22 @@ bool modele::Echequier::bougerPiece(const pair<int, int> &coordoneeInit, const p
     return false;
 }
 
-
+void modele::Echequier::setTour(const pair<int, int> &coordoneeInit, const pair<int, int> &coordoneeFinale)
+{
+    pieceForcer(coordoneeInit, coordoneeFinale );
+}
 void modele::Echequier::pieceForcer(const pair<int, int> &coordoneeInit, const pair<int, int> &coordoneeFinale)
 {
     setPiece(coordoneeFinale, setPiece(coordoneeInit, nullptr));
 }
+pair <int, int> modele::Echequier::convertisseurEntier(string caractere) const
+{
+    int ligne = 8 - (caractere[1] - '0');
+    int colonne = 8 - (caractere[0] - 'a');
+    return make_pair(ligne, colonne);
+
+}
+
 
 bool modele::Echequier::couleurNonValide(const pair<int,int> &coordoneeInit, const pair<int,int> &coordoneeFinale) const
 {
@@ -354,6 +348,33 @@ bool modele::Echequier::avancer(const pair<int, int> &coordoneeInit, const pair<
     return false;
 
 }
+
+void modele::Echequier::inverserMouvement()
+{
+    std::pair<std::pair<int, int>, std::pair<int, int>> lastMove = mouvement_.back();
+
+    // Reverse the last move, i.e. if it's A → B then move A ← B
+    pieceForcer(lastMove.second, lastMove.first);
+
+    // If this move represented a capture, replace the piece that was captured
+    size_t previousMove = mouvement_.size() - 1;
+    if (pieceCapturer_.find(previousMove) != pieceCapturer_.end())
+    {
+        // Move the piece from capturedPieces map to the board
+        setPiece(lastMove.second, move(pieceCapturer_[previousMove]));
+
+        // Erase the entry from capturedPieces map
+        pieceCapturer_.erase(previousMove);
+    }
+
+    // Remove it from move vector
+    mouvement_.pop_back();
+    // Decrement move counter in piece
+    getPiece(lastMove.first )->decrementer();
+
+
+}
+
 bool modele::Echequier::cavalierBouger(const pair<int, int> &coordoneeInit, const pair<int, int> &coordoneeFinale) const
 {
     int avancementHorizontal = abs(coordoneeFinale.second - coordoneeInit.second);
@@ -454,8 +475,11 @@ bool modele::Echequier::caseLibre(const pair<int, int> &coordoneeInit, const pai
             }
 
 
+
             return true;
         }
     }
     return false;
 }
+
+

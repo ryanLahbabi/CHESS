@@ -29,26 +29,30 @@ nous les utiliserons par la suite que lorsque nous allons définir nos méthode 
 
 using namespace std;
 
-//class Piece;
+
 
 
 namespace modele
 {
-
+class Piece;
 
 class Echequier
 {
 public:
     Echequier();
-
+    //Echequier(bool Pion, bool Cavalier, bool Tour, bool Fou, bool Reine, bool Roi);
+    // General
+    //void printBoard();
     void afficher();
-    void pieceForcer(const pair<int, int> &coordoneeInit, const pair<int, int> &coordoneeFinale);
-    bool bougerPiece(const pair<int, int> &coordoneeInit, const pair<int, int> &coordoneeFinale);
     Piece* getPiece(const pair<int,int> &coordonee) const;
-    int distance(const pair<int,int> &coordoneeInit,const pair<int,int> &coordoneeFinale) const;
+    bool bougerPiece(const pair<int, int> &coordoneeInit, const pair<int, int> &coordoneeFinale);
+    void setTour(const pair<int, int> &coordoneeInit, const pair<int, int> &coordoneeFinale);
+    void inverserMouvement();
+
+
+    bool dansJeu(const pair<int,int> &coordonee) const;
     bool mouvementLegal(const pair<int,int> &coordoneeInit,const pair<int,int> &coordoneeFinale) const;
     bool positionNonValide(const pair<int,int> &coordonee) const;
-    bool dansJeu(const pair<int,int> &coordonee) const;
     bool couleurNonValide(const pair<int,int> &coordoneeInit, const pair<int,int> &coordoneeFinale) const;
     bool couleurDiffNonValide(const pair<int,int> &coordoneeInit, const pair<int,int> &coordoneeFinale) const;
     bool mouvementVerticale(const pair<int,int> &coordoneeInit, const pair<int,int> &coordoneeFinale) const;
@@ -57,21 +61,26 @@ public:
     bool avancer(const pair<int, int> &coordoneeInit, const pair<int, int> &coordoneeFinale, const Piece* piece) const;
     bool cavalierBouger(const pair<int, int> &coordoneeInit, const pair<int, int> &coordoneeFinale) const;
     bool caseLibre(const pair<int, int> &coordoneeInit, const pair<int, int> &coordoneeFinale) const;
-    bool mouvementPiece(const pair <int,int> &coordoneeInit, const pair<int,int> &coordoneeFinale);
-    pair<int,int> getRoi(bool couleur) const;
-    pair<int,int> getCoordoneeRoi(bool couleur) const;
+    int distance(const pair<int,int> &coordoneeInit,const pair<int,int> &coordoneeFinale) const;
 
-    vector<pair<int,int>> getCoordoneePiece(bool couleur) const;
+    vector<Piece*> getPieces(modele::Couleur c) const;
+    vector<pair<int,int>> getCoordoneePiece(modele::Couleur c) const;
+    pair<int,int> getCoordoneeRoi(modele::Couleur c) const;
     vector<pair<int,int>> getCoordonee() const;
-    vector<Piece*> getPieces(bool couleur) const;
 
-    unique_ptr<Piece> setPiece(const pair<int,int> &coordonee, unique_ptr<Piece> p);
+    pair<int,int> convertisseurEntier(string caractere ) const;
+    string convertisseurCaractere(pair<int, int> entier ) const;
 
 
 private:
-    map<size_t, unique_ptr<Piece>> pieceCapturer_;
-    map<std::pair<int, int>, std::unique_ptr<Case>> cases_;
+    map<pair<int, int>, unique_ptr<Case>> cases_;
     vector<pair<pair<int,int>, pair<int,int>>> mouvement_;
+    map<size_t, unique_ptr<Piece>> pieceCapturer_;
+
+
+    unique_ptr<Piece> setPiece(const pair<int,int> &coordonee, unique_ptr<Piece> p);
+    void pieceForcer(const pair<int, int> &coordoneeInit, const pair<int, int> &coordoneeFinale);
+
 
 };
 }

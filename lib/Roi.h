@@ -9,7 +9,7 @@ using namespace std;
 class Roi:  public modele::Piece
 {
 public:
-    Roi(bool couleur );
+    Roi(modele::Couleur c );
     ~Roi() override = default;
     bool mouvementLegal(const modele::Echequier* echequier, const pair<int,int> &coordoneeInit, const pair<int,int> &coordoneeFinale) const override;
 };

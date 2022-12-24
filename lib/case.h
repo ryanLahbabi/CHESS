@@ -8,10 +8,9 @@ using namespace std;
 class Case
 {
 public:
-
     modele::Piece* getPieces() const;
     unique_ptr<modele::Piece> setPiece(unique_ptr<modele::Piece> piece);
-private:
+protected:
     unique_ptr<modele::Piece> piece_;
 };
 

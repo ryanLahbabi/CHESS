@@ -13,49 +13,66 @@ fonctions proviennet de echequier.h et nous devons régler un problème de compi
 Les avertissements de builds sont juste dû au fait que nous n'utilisons pas encore nos attributs x et y,
 nous les utiliserons par la suite que lorsque nous allons définir nos méthode pour chaucune des pièces de l'échiquier.
 */
-#ifndef JEU_H
-#define JEU_H
 
-
-
-
-#include <QObject>
-#include <QString>
-#include <echequier.h>
 #include <iostream>
+#include <ostream>
+
+#ifndef PIECE_H
+#define PIECE_H
+
+
+
 using namespace std;
 
 
-namespace modele {
-class Jeu : public QObject
+namespace modele{
+
+class Echequier;
+
+enum Couleur
 {
-    Q_OBJECT
+    BLANC,
+    NOIR
+};
+
+
+enum TypePiece
+{
+    ROI,
+    REINE,
+    CAVALIER,
+    FOU,
+    TOUR,
+    PION
+};
+class Piece
+{
 public:
-    void demarrer();
-    string afficherCouleur(bool couleur);
-    bool estEnEchec(bool couleur) const;
-    bool estEnEchecEtMat(bool couleur);
-    bool estMatchNul(bool couleur);
-    bool getTour(int i) const;
-    void switchGuiTurn();
-    void refaireMouvement();
-    bool bouger(pair<int,int> coordoneeInit, pair<int,int> coordoneeFinale);
-    void afficherEchiquier();
+    Piece(TypePiece, Couleur);
 
-private:
-    Echequier echequier_;
-    QString guimove_;
-    string mouvement1_ = "";
-    string mouvement2_ = "";
-    bool tour_ = true;
-public slots:
-    void getEntree(QString entree);
 
-signals:
-    void envoyerSignal(QString sortie);
+    void setCouleur(Couleur couleur);
+    void setType(TypePiece type);
+    void incrementer();
+    void decrementer();
+    Couleur getCouleur() const;
+    TypePiece getTypePiece() const;
+    bool deplacement() const;
+    virtual bool mouvementLegal(const Echequier* echequier,const pair<int,int> &coordoneeInit, const pair<int,int> &coordoneeFinale) const = 0;
+    friend ostream& operator<< (std::ostream &out, const Piece &piece);
+
+
+    virtual ~Piece() = default;
+
+protected:
+    Couleur couleur;
+    TypePiece type_;
+    int mouvement_;
+    char typeToChar(TypePiece type) const;
+    char colorToChar(modele::Couleur c) const;
 
 
 };
 }
 
-#endif // JEU_H
+#endif // PIECE_H

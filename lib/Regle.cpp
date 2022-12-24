@@ -1,3 +1,5 @@
+//Cette classe permet de gérer les images .png dans le fichier de resources.
+
 #include "Regle.h"
 
 modele::Regle::Regle(int x, int y)
@@ -15,8 +17,8 @@ void modele::Regle::appuiBouton(QGraphicsSceneMouseEvent *bouton){
     emit envoyerMessage(nomPiece);
 }
 
-void modele::Regle::setNomPiece(QString n){
-    nomPiece = n;
+void modele::Regle::setNomPiece(QString nom){
+    nomPiece = nom;
 }
 
 QString modele::Regle::getNomPiece(){

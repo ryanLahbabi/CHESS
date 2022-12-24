@@ -7,7 +7,7 @@ using namespace std;
 class Tour:  public modele::Piece
 {
 public:
-    Tour(bool couleur);
+    Tour(modele::Couleur c);
     bool mouvementLegal(const modele::Echequier* echequier, const pair<int,int> &coordoneeInit, const pair<int,int> &coordoneeFinale) const override;
     ~Tour() override = default;
 

@@ -1,7 +1,7 @@
 #include "reine.h"
 
 using namespace std;
-Reine::Reine(bool couleur): Piece(modele::REINE, couleur)
+Reine::Reine(modele::Couleur c): Piece(modele::REINE, c)
 {}
 
 bool Reine::mouvementLegal(const modele::Echequier* echequier, const pair<int,int> &coordoneeInit, const pair<int,int> &coordoneeFinale) const

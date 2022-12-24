@@ -1,13 +1,13 @@
 #ifndef REGLE_H
 #define REGLE_H
 
-#include <string>
 #include <QDebug>
 #include <QObject>
+#include <QGraphicsRectItem>
 #include <QGraphicsSceneMouseEvent>
 #include <QImage>
-#include <QGraphicsRectItem>
 #include <QBrush>
+#include <string>
 
 namespace modele
 {
@@ -16,12 +16,12 @@ class Regle: public QObject, public QGraphicsRectItem
     Q_OBJECT
 public:
     Regle(int x, int y);
-    void setNomPiece(QString );
     void appuiBouton(QGraphicsSceneMouseEvent *e);
-    void clearPng();
+    void setNomPiece(QString );
     QString getNomPiece();
-    QString getPng();
     void setPng(QString adresse);
+    QString getPng();
+    void clearPng();
 
 private:
     QString nomPiece;

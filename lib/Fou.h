@@ -6,7 +6,7 @@
 class Fou: public modele::Piece
 {
 public:
-    Fou(bool couleur);
+    Fou(modele::Couleur couleur);
     ~Fou() override = default;
     bool mouvementLegal(const modele::Echequier* echequier, const pair<int,int> &coordoneeInit, const pair<int,int> &coordoneeFinale) const override;
 };

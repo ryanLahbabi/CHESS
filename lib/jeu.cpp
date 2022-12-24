@@ -8,7 +8,7 @@ void modele::Jeu::demarrer()
 {
     string entree;
     int count = 1;
-    bool couleur = getTour(count);
+    Couleur couleur = getChangerCouleur(count);
 
     while (true)
     {
@@ -45,13 +45,13 @@ void modele::Jeu::demarrer()
        {
 
                count++;
-               couleur = getTour(count);
+               couleur = getChangerCouleur(count);
 
 
            continue;
        }
 
-       if (echequier_.mouvementPiece(init, finale))
+       if (echequier_.mouvementLegal(init, finale))
        {
            if (estEnEchec(couleur))
            {
@@ -60,13 +60,15 @@ void modele::Jeu::demarrer()
            else
            {
                count++;
-               couleur = getTour(count);
+               couleur = getChangerCouleur(count);
            }
        }
     }
 
 }
-string modele::Jeu::afficherCouleur(bool couleur)
+
+
+string modele::Jeu::afficherCouleur(modele::Couleur couleur)
 {
     if (couleur)
     {
@@ -74,15 +76,16 @@ string modele::Jeu::afficherCouleur(bool couleur)
     }
         return "Black";
 }
-bool modele::Jeu::estEnEchec(bool couleur) const
+bool modele::Jeu::estEnEchec(modele::Couleur couleur) const
 {
-    bool couleurAdverse = true;
-    if (couleur)
-    {
-        couleurAdverse = false;
-    }
+    modele::Couleur couleurAdverse;
+    if (couleur == BLANC)
+        couleurAdverse = NOIR;
+    else
+        couleurAdverse = BLANC;
 
-    pair<int,int> coordoneeRoi = echequier_.getRoi(couleur);
+
+    pair<int,int> coordoneeRoi = echequier_.getCoordoneeRoi(couleur);
     vector<pair<int,int>> coordoneePiece = echequier_.getCoordoneePiece(couleurAdverse);
 
     for (auto adversite : coordoneePiece)
@@ -94,7 +97,7 @@ bool modele::Jeu::estEnEchec(bool couleur) const
     }
     return false;
 }
-bool modele::Jeu::estEnEchecEtMat(bool couleur)
+bool modele::Jeu::estEnEchecEtMat(modele::Couleur couleur)
 {
     if (estEnEchec(couleur))
     {
@@ -105,7 +108,7 @@ bool modele::Jeu::estEnEchecEtMat(bool couleur)
         {
             for (auto &c : coordonee)
             {
-                if (echequier_.mouvementPiece(cPiece, c))
+                if (echequier_.mouvementLegal(cPiece, c))
                 {
                     if (estEnEchec(couleur) == false)
                     {
@@ -122,7 +125,7 @@ bool modele::Jeu::estEnEchecEtMat(bool couleur)
     }
     return true;
 }
-bool modele::Jeu::estMatchNul(bool couleur){
+bool modele::Jeu::estMatchNul(modele::Couleur couleur){
     if (estEnEchec(couleur))
     {
         return false;
@@ -136,7 +139,7 @@ bool modele::Jeu::estMatchNul(bool couleur){
             {
                 for (auto &c : coordonee)
                 {
-                    if (echequier_.mouvementPiece(cPiece, c))
+                    if (echequier_.mouvementLegal(cPiece, c))
                     {
 
                         if (estEnEchec(couleur) == false)
@@ -150,17 +153,17 @@ bool modele::Jeu::estMatchNul(bool couleur){
         }
         return true;
 }
-bool modele::Jeu::getTour(int i) const
+
+modele::Couleur modele::Jeu::getChangerCouleur(int nombreMouvement) const
 {
-    if (i % 2 == 1)
+    if (nombreMouvement % 2 == 1)
     {
-        return true;
+        return BLANC;
     }
-    return false;
-}
-void modele::Jeu::switchGuiTurn()
-{
-   tour_ = !tour_;
+    else
+    {
+        return NOIR;
+    }
 }
 void modele::Jeu::refaireMouvement()
 {
@@ -169,7 +172,7 @@ void modele::Jeu::refaireMouvement()
 }
 bool modele::Jeu::bouger(std::pair<int,int> coordoneeInit, std::pair<int,int> coordoneeFinale)
 {
-    return echequier_.mouvementPiece(coordoneeInit, coordoneeFinale);
+    return echequier_.mouvementLegal(coordoneeInit, coordoneeFinale);
 }
 void modele::Jeu::afficherEchiquier()
 {
@@ -178,7 +181,7 @@ void modele::Jeu::afficherEchiquier()
 
 void modele::Jeu::getEntree(QString entree)
 {
-    //qDebug() << "Game saw that " << input << "was clicked, and will now respond.";
+    qDebug() << "Game saw that " << entree << "was clicked, and will now respond.";
 
     // If this is the first click, store it in move1
     if (mouvement1_ == "")
@@ -209,40 +212,31 @@ void modele::Jeu::getEntree(QString entree)
             return;
         }
 
-        if (echequier_.getPiece(init)->getCouleur() != tour_)
+        if (echequier_.getPiece(init)->getCouleur() != changerCouleur_)
         {
-            std::cout << "Error: It's " << afficherCouleur(tour_) << "'s turn." << '\n';
+            std::cout << "Error: It's " << afficherCouleur(changerCouleur_) << "'s turn." << '\n';
 
             emit envoyerSignal("Invalid Move");
             refaireMouvement();
+
             return;
         }
 
-        // Check if this is an attempted castle and handle accordingly
-        if (echequier_.getPiece(init)->getTypePiece() == ROI && echequier_.distance(init, finale) > 1)
-        {
 
-        }
-
-        // Attempt to move piece
-        // TODO: Check for castling here?
-        else if (echequier_.bougerPiece(init, finale))
+        if (echequier_.bougerPiece(init, finale))
         {
-            // Verify that move doesn't put player in check, else switch players
-            if (estEnEchec(tour_))
+            if (estEnEchec(changerCouleur_))
             {
-                // If move puts player in check, print error, revert move, and let player enter different move
-                std::cout << "Error: This leaves " << afficherCouleur(tour_) << " in check.\n";
+                cout << "Error: This leaves " << afficherCouleur(changerCouleur_) << " in check.\n";
                 //qDebug() << "Error: This leaves you in check.";
-                //board.revertLastMove();
+                echequier_.inverserMouvement();
                 envoyerSignal("Invalid Move");
             }
             // If the move was valid, switch turns and send "Valid" response
             else
             {
-                switchGuiTurn();
+                //changerCouleur();
 
-                // Send QString response containing the two spaces of the valid move
                 QString sendStr = "";
                 QString part1 = QString::fromStdString(mouvement1_);
                 QString part2 = QString::fromStdString(mouvement2_);
@@ -256,15 +250,6 @@ void modele::Jeu::getEntree(QString entree)
             std::cout << "Error: Invalid move.\n";
            // qDebug() << "Error: Invalid move.";
             envoyerSignal("Invalid Move");
-        }
-
-        if(estEnEchecEtMat(tour_)==true)
-        {
-            envoyerSignal("Checkmate");
-        }
-        else if (estEnEchec(tour_)==true)
-        {
-            envoyerSignal("Check");
         }
 
         refaireMouvement();

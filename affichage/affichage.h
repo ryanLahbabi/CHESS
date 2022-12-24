@@ -14,11 +14,6 @@ class Affichage: public QObject
 {
     Q_OBJECT
 
-public:
-    Affichage();
-    QGraphicsScene* getGraphique();
-public slots:
-   void getSignal(QString signal);
 private:
     QGraphicsScene * afficherJeu;
     Jeu jeu;
@@ -27,8 +22,8 @@ private:
     void debut();
     void piecesPlacer();
     bool couleur = true; //true = blanc
-    QGraphicsTextItem * verification;
     QGraphicsTextItem * tourJoueur;
+    QGraphicsTextItem * verification;
 
     const QString numeroCase[64] =
     {
@@ -41,6 +36,15 @@ private:
         "A2", "B2", "C2", "D2", "E2", "F2", "G2", "H2",
         "A1", "B1", "C1", "D1", "E1", "F1", "G1", "H1"
     };
+
+
+public:
+    Affichage();
+    QGraphicsScene* getGraphique();
+public slots:
+   void getSignal(QString signal);
+
+
 
 
 

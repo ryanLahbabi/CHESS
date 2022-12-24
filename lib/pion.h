@@ -1,13 +1,15 @@
-#include "echequier.h"
-#ifndef REINE_H
-#define REINE_H
-using namespace std;
+#ifndef PION_H
+#define PION_H
 
-class Reine:  public modele::Piece
+#include "echequier.h"
+
+
+class Pion : public modele::Piece
 {
 public:
-    Reine(bool couleur );
-    ~Reine() override = default;
+    Pion(modele::Couleur c);
  bool mouvementLegal(const modele::Echequier* echequier, const pair<int,int> &coordoneeInit, const pair<int,int> &coordoneeFinale) const override;
+ ~Pion() override = default;
 };
-#endif // REINE_H
+
+#endif // PION_H

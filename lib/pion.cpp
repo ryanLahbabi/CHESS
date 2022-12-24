@@ -1,6 +1,6 @@
 #include "pion.h"
 
-Pion::Pion(bool couleur) : Piece::Piece(modele::TypePiece::PION, couleur){}
+Pion::Pion(modele::Couleur c) : Piece::Piece(modele::TypePiece::PION, c){}
 
 
  bool Pion::mouvementLegal(const modele::Echequier *echequier, const pair<int,int> &coordoneeInit, const pair<int,int> &coordoneeFinale) const
