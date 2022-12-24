@@ -4,8 +4,8 @@
 #include "echequier.h"
 #include "jeu.h"
 #include <QApplication>
-#include <QGraphicsScene>
 #include <QGraphicsRectItem>
+#include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QGridLayout>
 #include <QFrame>
