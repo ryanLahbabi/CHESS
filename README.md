@@ -11,18 +11,20 @@ Authors:
 * GOLAM kumar Ashveer
 
 
-This is a chess game implemented to work in QT in order to have a satisfying interface.  
-This program allows two playerss to take turns play chess on the same screen as we used an oriented-object approach.
+This is a chess game implemented using Qt to provide a satisfying interface.
+The program allows two players to take turns playing chess on the same screen, using an object-oriented approach.
+
 
 ### affichage folder
-This folder allows us to set the display of the chessboard and control it with QT functionalities.
+This folder contains the code to manage the display of the chessboard and control it using Qt functionalities.
+
 
 ### lib folder
-This folder contains the behaviour that should be assigned to each piece of the chess game. 
-In addition, the relationhip and the rules between each piece and the chessboard are also set in this folder.
+This folder defines the behavior of each chess piece.
+It also establishes the relationships and rules governing the interactions between the pieces and the chessboard.
 
 ### piece folder
-This folder contains the different pieces's pictures that are implemented in the chessboard (black and white).
+This folder contains the images of the chess pieces (both black and white) used in the game.
 
 ## How does it work?
 1. Start this project in QT Creator
